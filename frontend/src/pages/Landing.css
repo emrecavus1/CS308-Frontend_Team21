@@ -1,0 +1,103 @@
+.landing-container {
+  font-family: "Work Sans", sans-serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #e7edf3;
+  padding: 10px;
+  border-radius: 20px;
+  width: 250px;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  padding-left: 10px;
+}
+
+.search-icon {
+  color: #4e7397;
+}
+
+.icons {
+  display: flex;
+  gap: 20px;
+}
+
+.icon {
+  font-size: 20px;
+  color: #0e141b;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon:hover {
+  color: #1980e6;
+}
+
+/* Hero Section */
+.hero {
+  background: url("https://cdn.usegalileo.ai/sdxl10/bdab3910-d8bf-4895-b821-8c5497784515.png") center/cover no-repeat;
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  padding: 40px;
+  color: white;
+}
+
+.hero-content h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.hero-content p {
+  font-size: 1rem;
+}
+
+/* Categories */
+.categories {
+  padding: 20px;
+}
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.category-item {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.category-item:hover {
+  transform: scale(1.05);
+}
