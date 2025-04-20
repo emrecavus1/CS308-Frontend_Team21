@@ -1,1 +1,0 @@
-Global stateleri burda yöneteceğiz. (Sepet içeriği olabilir mesela)

@@ -1,0 +1,60 @@
+/* src/pages/AuthForms.css */
+.auth-container {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+  }
+  .auth-card {
+    width: 400px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  .auth-card h2 {
+    margin-bottom: 1rem;
+  }
+  .auth-error {
+    color: red;
+    margin-bottom: 0.5rem;
+  }
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 0.75rem;
+  }
+  .auth-form label {
+    font-size: 0.9rem;
+  }
+  .auth-form input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .auth-submit {
+    background-color: #333;
+    color: #fff;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  .auth-alt-option {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #555;
+  }
+  .auth-alt-option a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  .auth-alt-option a:hover {
+    text-decoration: underline;
+  }
+  
