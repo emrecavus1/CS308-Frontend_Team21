@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import Header from "../components/Header"; // ✅ You must import and render this
 import "./ProductDetail.css";
 
 const ProductDetail = () => {
@@ -28,14 +29,13 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail-page">
+      <Header /> {/* ✅ Required */}
       <div className="product-info">
         <img src={product.image} alt={product.title} className="product-image" />
         <div className="details">
           <h2>{product.title}</h2>
           <p className="price">${product.price}</p>
-          <p className="desc">
-            {product.description || "No detailed description available."}
-          </p>
+          <p className="desc">{product.description || "No detailed description available."}</p>
           <button onClick={handleAddToCart}>Add to Cart</button>
         </div>
       </div>

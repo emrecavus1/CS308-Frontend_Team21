@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
   };
 
   const handleAddToCart = (e) => {
-    e.stopPropagation(); // <-- yönlendirmeyi engelle
+    e.stopPropagation(); 
     addToCart(product);
   };
 

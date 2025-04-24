@@ -1,18 +1,35 @@
+/* Cart.css */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 .cart-page {
-  background-color: #f5f6f8;
-  padding: 60px 40px;
+  background: url("https://cdn.usegalileo.ai/sdxl10/ed217804-d863-458e-bc2d-def6800d7229.png") no-repeat center center fixed;
+  background-size: cover;
   font-family: 'Work Sans', sans-serif;
   min-height: 100vh;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 140px 40px 60px;
+  margin: 0;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
 .cart-page h2 {
   font-size: 2.2rem;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   text-align: center;
-  color: #1d1d1f;
-  font-weight: 600;
+  color: white;
+  font-weight: 700;
+}
+
+.cart-page p.subtext {
+  font-size: 1.1rem;
+  color: white;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .cart-content {
@@ -38,21 +55,15 @@
   align-items: center;
   background: white;
   padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cart-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .cart-item img {
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 14px;
 }
 
 .cart-item h4 {
@@ -68,18 +79,14 @@
 }
 
 .cart-item button {
-  padding: 8px 16px;
+  padding: 10px 18px;
   background-color: #e53e3e;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   margin-top: 10px;
-  transition: background 0.3s ease;
-}
-
-.cart-item button:hover {
-  background-color: #c53030;
+  font-size: 0.95rem;
 }
 
 .cart-summary {
@@ -87,8 +94,8 @@
   max-width: 320px;
   background: white;
   padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -106,42 +113,116 @@
 
 .cart-summary button {
   padding: 14px 20px;
-  background-color: #1a73e8;
+  background-color: #197fe6;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
   font-size: 1rem;
   font-weight: 500;
 }
 
-.cart-summary button:hover {
-  background-color: #0f5dc8;
-  transform: translateY(-2px);
-}
-
 .cart-page.empty {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url("https://cdn.usegalileo.ai/sdxl10/ed217804-d863-458e-bc2d-def6800d7229.png") no-repeat center center fixed;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 80px;
+  justify-content: flex-start;
+  font-family: 'Work Sans', sans-serif;
   text-align: center;
+  z-index: 0;
+  padding-top: 180px;
+}
+
+.cart-page.empty h2 {
+  color: white;
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.cart-page.empty p.subtext {
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  max-width: 600px;
 }
 
 .cart-page.empty button {
-  margin-top: 20px;
-  padding: 12px 24px;
-  background-color: #1a73e8;
+  margin-top: 10px;
+  padding: 14px 28px;
+  background-color: #197fe6;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-weight: 600;
 }
 
-.cart-page.empty button:hover {
-  background-color: #0f5dc8;
+/* Header styles */
+.header {
+  width: 100vw;
+  padding: 16px 40px;
+  background-color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  font-family: 'Work Sans', sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 0 0 12px 12px;
+}
+
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0e141b;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #e7edf3;
+  padding: 10px;
+  border-radius: 20px;
+  width: 250px;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  padding-left: 10px;
+}
+
+.search-icon {
+  color: #4e7397;
+}
+
+.icons {
+  display: flex;
+  gap: 20px;
+}
+
+.icon {
+  font-size: 20px;
+  color: #0e141b;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon:hover {
+  color: #197fe6;
 }
