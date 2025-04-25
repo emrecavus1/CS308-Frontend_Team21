@@ -1,52 +1,91 @@
-import React from "react";
-import { FaSearch, FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+
+import {
+  FaTshirt,
+  FaShoppingBag,
+  FaMagic,
+  FaTv,
+  FaUserCircle,
+  FaDumbbell,
+  FaHome,
+  FaAppleAlt,
+  FaCar,
+  FaBook,
+  FaPuzzlePiece,
+  FaBriefcase,
+} from "react-icons/fa";
+
 import "./Landing.css";
 
-const Landing = () => {
-  const navigate = useNavigate(); // Hook to navigate between pages
+/* Icon map for categories */
+const iconMap = {
+  Electronics: <FaTv />,
+  Books: <FaBook />,                    // Updated icon
+  Clothing: <FaTshirt />,
+  Sports: <FaDumbbell />,
+  "Home & Kitchen": <FaHome />,
+  Beauty: <FaMagic />,
+  Toys: <FaPuzzlePiece />,              // Updated icon
+  Automotive: <FaCar />,                // Updated icon
+  Grocery: <FaAppleAlt />,
+  "Office Supplies": <FaBriefcase />,   // Updated icon
+  Bags: <FaShoppingBag />,
+};
+
+export default function Landing() {
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/main/getCategories")
+      .then((res) => {
+        const list = Array.isArray(res.data)
+          ? res.data
+          : Array.isArray(res.data.categories)
+          ? res.data.categories
+          : [];
+        setCategories(list);
+      })
+      .catch((err) => {
+        console.error("Failed to load categories", err);
+        setCategories([]);
+      });
+  }, []);
 
   return (
-    <div className="landing-container">
-      {/* Header Section */}
-      <header className="header">
-        <h2 className="logo">Shipshak.com</h2>
-        <div className="search-bar">
-          <input type="text" placeholder="Search" />
-          <FaSearch className="search-icon" />
-        </div>
-        <div className="icons">
-          <FaHeart className="icon" />
-          <FaShoppingCart className="icon" />
-          {/* Navigate to login when clicking the profile icon */}
-          <FaUser className="icon clickable-icon" onClick={() => navigate("/login")} />
-        </div>
-      </header>
+    <div className="landing-page">
+      <Header />
 
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-content">
+      <div className="hero-section">
+        <div className="hero-overlay">
           <h1>Welcome to Shipshak.com</h1>
           <p>Your cart, your way, right away!</p>
         </div>
-      </section>
+      </div>
 
-      {/* Categories Section */}
-      <section className="categories">
-        <h3>Categories</h3>
-        <div className="category-list">
-          <div className="category-item">Clothing</div>
-          <div className="category-item">Shoes & Bags</div>
-          <div className="category-item">Cosmetics</div>
-          <div className="category-item">Electronics</div>
-          <div className="category-item">Accessories</div>
-          <div className="category-item">Sports & Outdoor</div>
-          <div className="category-item">Home & Living</div>
-          <div className="category-item">Groceries</div>
+      <section className="categories-section">
+        <h2>Categories</h2>
+        <div className="category-grid">
+          {categories.map((cat) => (
+            <div
+              key={cat.categoryName}
+              className="category-card"
+              onClick={() =>
+                navigate(`/category/${encodeURIComponent(cat.categoryName)}`)
+              }
+            >
+              <div className="icon">
+                {iconMap[cat.categoryName] || <FaShoppingBag />}
+              </div>
+              <div className="label">{cat.categoryName}</div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
   );
-};
-
-export default Landing;
+}

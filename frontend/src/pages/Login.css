@@ -1,136 +1,142 @@
-/* src/pages/Login.css */
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-.login-page {
+html, body {
+  height: 100vh;
+  width: 100%;
+  font-family: 'Work Sans', sans-serif;
+  background: url("https://cdn.usegalileo.ai/sdxl10/bdab3910-d8bf-4895-b821-8c5497784515.png") no-repeat center center fixed;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: url("https://cdn.usegalileo.ai/sdxl10/bdab3910-d8bf-4895-b821-8c5497784515.png") no-repeat center center fixed;
-  background-size: cover;
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.3);
-  font-family: "Work Sans", sans-serif;
 }
 
-.login-card {
-  width: 100%;
-  max-width: 460px;
-  background-color: rgba(255, 255, 255, 0.85);
-  border-radius: 24px;
-  padding: 3rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+/* Login Box Styling */
+.login-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35); /* More prominent shadow */
   text-align: center;
-  backdrop-filter: blur(8px);
+  width: 380px;
 }
 
-.login-card h2 {
-  margin-bottom: 1.8rem;
-  font-size: 1.9rem;
-  font-weight: bold;
+/* Title */
+.login-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
   color: #0e141b;
 }
 
-.social-btn {
+/* Social Buttons */
+.social-login {
   width: 100%;
-  padding: 0.75rem;
+  padding: 12px;
+  margin-bottom: 12px;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
   cursor: pointer;
-  margin-bottom: 0.75rem;
   font-weight: 600;
-  transition: background-color 0.3s ease;
 }
 
-.google-btn {
-  background-color: #4285F4;
-  color: #fff;
-}
-.google-btn:hover {
-  background-color: #3267c1;
+.google {
+  background-color: #4285f4;
+  color: white;
 }
 
-.apple-btn {
-  background-color: #222;
-  color: #fff;
-}
-.apple-btn:hover {
-  background-color: #000;
+.apple {
+  background-color: #333;
+  color: white;
 }
 
-.login-separator {
-  margin: 1.5rem 0;
-  color: #777;
+.or-text {
+  margin: 15px 0;
   font-size: 0.9rem;
+  color: #666;
 }
 
-.login-error {
-  color: red;
-  margin-bottom: 0.75rem;
-}
-
-.login-form {
+/* Form Styling */
+form {
   display: flex;
   flex-direction: column;
+}
+
+label {
   text-align: left;
-  gap: 0.8rem;
-}
-
-.login-form label {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  margin-bottom: 0.2rem;
+  margin: 5px 0;
 }
 
-.login-form input {
-  padding: 0.7rem;
-  border: 1px solid #ccd3db;
+input {
+  padding: 12px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   background-color: #fff;
 }
 
-.login-extra {
+/* Remember Me and Forgot Password */
+.remember-forgot {
   display: flex;
   justify-content: space-between;
-  margin-top: 0.5rem;
-  margin-bottom: 1.2rem;
   font-size: 0.85rem;
-  color: #495057;
+  color: #555;
+  margin-bottom: 14px;
 }
 
-.login-extra a {
-  color: #007bff;
-  text-decoration: none;
+.forgot-password {
+  cursor: pointer;
+  color: #197fe6;
 }
-.login-extra a:hover {
+
+.forgot-password:hover {
   text-decoration: underline;
 }
 
-.login-submit {
-  background-color: #4285F4;
-  color: #fff;
-  padding: 0.8rem;
+/* Error Message */
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* Login Button */
+.login-button {
+  background-color: #197fe6;
+  color: white;
+  padding: 12px;
   border: none;
   border-radius: 10px;
-  cursor: pointer;
   font-size: 1rem;
+  cursor: pointer;
   font-weight: 600;
   transition: background-color 0.3s ease;
 }
-.login-submit:hover {
-  background-color: #3267c1;
+
+.login-button:hover {
+  background-color: #125db3;
 }
 
-.login-bottom-text {
-  margin-top: 1.5rem;
-  font-size: 0.85rem;
-  color: #555;
+/* Signup Link */
+.signup {
+  font-size: 0.9rem;
+  margin-top: 18px;
 }
 
 .signup-link {
-  color: #007bff;
+  color: #197fe6;
   cursor: pointer;
+  font-weight: bold;
 }
+
 .signup-link:hover {
   text-decoration: underline;
 }
