@@ -1,16 +1,16 @@
-import { Routes, Route } from "react-router-dom";
-import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+// src/App.jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Register from './pages/Register'
+import Login    from './pages/Login'
 
-function App() {
+export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path="/register"        element={<Register />} />
+        <Route path="/login"   element={<Login />} />
+        {/* …other routes… */}
+      </Routes>
+    </BrowserRouter>
+  )
 }
-
-export default App;

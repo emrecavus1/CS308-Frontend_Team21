@@ -1,64 +1,157 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import "./Login.css";
+// src/pages/Login.jsx
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+export default function Login() {
+  const [formData, setFormData] = useState({ email: '', password: '' })
+  const [fieldErrors, setFieldErrors] = useState({})
+  const [globalError, setGlobalError] = useState('')
+  const navigate = useNavigate()
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleChange = (e) => {
+    setFormData(f => ({ ...f, [e.target.name]: e.target.value }))
+    setFieldErrors(fe => ({ ...fe, [e.target.name]: '' }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setGlobalError('')
+    setFieldErrors({})
+
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/login", {
-        email,
-        password,
-      });
-      console.log("Login successful", response.data);
-      navigate("/"); // Redirect to home after login
+      const res = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          // explicit 401 handling
+          setGlobalError('Either email or password is wrong, please check again.')
+          return
+        }
+
+        // for any other error, try to parse JSON if present
+        let errBody = {}
+        try {
+          errBody = await res.json()
+        } catch (_) {
+          // ignore JSON parse failures
+        }
+
+        if (errBody.field) {
+          setFieldErrors(fe => ({ ...fe, [errBody.field]: errBody.message }))
+        } else {
+          setGlobalError(errBody.message || 'Login failed')
+        }
+        return
+      }
+
+      const { token } = await res.json()
+      localStorage.setItem('token', token)
+      navigate('/')
     } catch (err) {
-      setError("Invalid email or password");
+      setGlobalError('Network error: ' + err.message)
     }
-  };
+  }
 
   return (
-    <div className="login-container">
-      <h2>Welcome Back</h2>
-      <button className="social-login google">Sign in with Google</button>
-      <button className="social-login apple">Sign in with Apple</button>
-      <p className="or-text">or</p>
-      <form onSubmit={handleLogin}>
-        <label>Email</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <div className="remember-forgot">
-          <div>
-            <input type="checkbox" id="remember" />
-            <label htmlFor="remember">Remember me</label>
-          </div>
-          <p className="forgot-password">Forgot your password?</p>
-        </div>
-        {error && <p className="error">{error}</p>}
-        <button type="submit" className="login-button">Sign In</button>
-      </form>
-      <p className="signup">New to Shipshak? <span onClick={() => navigate("/register")} className="signup-link">Sign up now</span></p>
-    </div>
-  );
-};
+    <div className="min-h-screen bg-gray-100 p-8 flex justify-center">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-3xl font-bold mb-6">Log In</h2>
 
-export default Login;
+        {globalError && (
+          <div className="flex items-center text-red-600 mb-4 text-base">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-[1em] h-[1em] inline-block mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{globalError}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block mb-1 font-medium">
+              Email:
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-1/2 h-30 px-4 border border-gray-300 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {fieldErrors.email && (
+              <div className="flex items-center text-red-600 mt-1 text-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-[1em] h-[1em] inline-block mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{fieldErrors.email}</span>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block mb-1 font-medium">
+              Password:
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-1/2 h-30 px-4 border border-gray-300 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            {fieldErrors.password && (
+              <div className="flex items-center text-red-600 mt-1 text-sm">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-[1em] h-[1em] inline-block mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{fieldErrors.password}</span>
+              </div>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="mt-8 bg-blue-500 text-white text-xl font-semibold py-3 px-8 rounded-xl hover:bg-blue-600 transition"
+          >
+            Sign In
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
