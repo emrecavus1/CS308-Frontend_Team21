@@ -1,0 +1,48 @@
+.register-card {
+  background-color: rgba(0, 0, 0, 0.6);  /* Shaded box */
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 420px;
+  margin: 0 auto;
+  color: white;                          /* ✅ Makes all text white */
+}
+
+.register-card label {
+  color: white;                          /* ✅ Label text white */
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.register-card h2 {
+  color: white;                          /* ✅ Register title white */
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.register-card input,
+.register-card select {
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.register-card .submit-btn {
+  background-color: #197fe6;             /* Blue button */
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.register-card .submit-btn:hover {
+  background-color: #125db3;
+}

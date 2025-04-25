@@ -1,0 +1,142 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100vh;
+  width: 100%;
+  font-family: 'Work Sans', sans-serif;
+  background: url("https://cdn.usegalileo.ai/sdxl10/bdab3910-d8bf-4895-b821-8c5497784515.png") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login Box Styling */
+.login-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35); /* More prominent shadow */
+  text-align: center;
+  width: 380px;
+}
+
+/* Title */
+.login-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #0e141b;
+}
+
+/* Social Buttons */
+.social-login {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.google {
+  background-color: #4285f4;
+  color: white;
+}
+
+.apple {
+  background-color: #333;
+  color: white;
+}
+
+.or-text {
+  margin: 15px 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 5px 0;
+}
+
+input {
+  padding: 12px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background-color: #fff;
+}
+
+/* Remember Me and Forgot Password */
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 14px;
+}
+
+.forgot-password {
+  cursor: pointer;
+  color: #197fe6;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Error Message */
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+/* Login Button */
+.login-button {
+  background-color: #197fe6;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #125db3;
+}
+
+/* Signup Link */
+.signup {
+  font-size: 0.9rem;
+  margin-top: 18px;
+}
+
+.signup-link {
+  color: #197fe6;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
