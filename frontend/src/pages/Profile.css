@@ -1,0 +1,59 @@
+/* src/pages/Profile.css */
+
+/* Container centers the card on the screen */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: #f0f0f0;
+  }
+  
+  /* The card has a white background and a drop shadow */
+  .profile-card {
+    background: #fff;
+    width: 400px;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Title styling */
+  .profile-card h1 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  /* Info area for the user's data */
+  .profile-info p {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+  
+  /* Buttons: both the product manager and logout buttons share styles */
+  .pm-button,
+  .logout-button {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .pm-button:hover,
+  .logout-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* We can add a small margin between the two buttons if needed */
+  .pm-button {
+    margin-bottom: 0.5rem;
+  }
+  

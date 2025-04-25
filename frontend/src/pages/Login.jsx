@@ -1,64 +1,102 @@
+// src/pages/Login.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+function Login() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/login", {
-        email,
-        password,
-      });
-      console.log("Login successful", response.data);
-      navigate("/"); // Redirect to home after login
+      await axios.post("http://localhost:8080/api/auth/login", formData);
+      // "Login successful!"
+
+      const stored = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+      const foundUser = stored.find(
+        (u) => u.email === formData.email && u.password === formData.password
+      );
+
+      if (foundUser) {
+        localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+      } else {
+        // fallback
+        localStorage.setItem("loggedInUser", JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }));
+      }
+      navigate("/");
     } catch (err) {
-      setError("Invalid email or password");
+      if (err.response && err.response.status === 400) {
+        setError(err.response.data); // e.g. "Email not registered" or "Incorrect password"
+      } else {
+        console.error(err);
+        setError("An unexpected error occurred.");
+      }
     }
   };
 
   return (
     <div className="login-container">
-      <h2>Welcome Back</h2>
-      <button className="social-login google">Sign in with Google</button>
-      <button className="social-login apple">Sign in with Apple</button>
-      <p className="or-text">or</p>
-      <form onSubmit={handleLogin}>
-        <label>Email</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <div className="remember-forgot">
-          <div>
-            <input type="checkbox" id="remember" />
-            <label htmlFor="remember">Remember me</label>
+      <div className="login-card">
+        <h2>Welcome Back</h2>
+
+        {/* Social sign-in buttons (mock) */}
+        <button className="social-btn google-btn">Sign in with Google</button>
+        <button className="social-btn apple-btn">Sign in with Apple</button>
+
+        <div className="login-separator">or</div>
+
+        {error && <p className="login-error">{error}</p>}
+
+        <form onSubmit={handleLogin} className="login-form">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+
+          <div className="login-extra">
+            <div>
+              <input type="checkbox" id="remember" />
+              <label htmlFor="remember"> Remember me</label>
+            </div>
+            <a href="#forgot">Forgot your password?</a>
           </div>
-          <p className="forgot-password">Forgot your password?</p>
-        </div>
-        {error && <p className="error">{error}</p>}
-        <button type="submit" className="login-button">Sign In</button>
-      </form>
-      <p className="signup">New to Shipshak? <span onClick={() => navigate("/register")} className="signup-link">Sign up now</span></p>
+
+          <button type="submit" className="login-submit">Sign In</button>
+        </form>
+
+        <p className="login-bottom-text">
+          New to Shipshak? <a href="/register">Sign up now</a>
+        </p>
+      </div>
     </div>
   );
-};
+}
 
 export default Login;

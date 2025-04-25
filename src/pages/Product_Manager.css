@@ -1,0 +1,98 @@
+/* Product_Manager.css */
+
+/* Basic reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.pm-container {
+  width: 90%;
+  max-width: 800px;
+  margin: 2rem auto;
+  font-family: Arial, sans-serif;
+}
+
+.pm-error {
+  background-color: #ffe6e6;
+  color: #c00;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+/* Section headings */
+.pm-section {
+  margin-bottom: 2rem;
+}
+.pm-section h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+/* Add Category form */
+.pm-form-group {
+  display: flex;
+  gap: 0.5rem;
+}
+.pm-form-group input {
+  flex: 1;
+  padding: 0.5rem;
+}
+.pm-form-group button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.pm-form-group button:hover {
+  background-color: #555;
+}
+
+/* Add Product form */
+.pm-form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 300px;
+}
+.pm-form-col input,
+.pm-form-col select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.pm-form-col button {
+  background-color: #333;
+  color: #fff;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.pm-form-col button:hover {
+  background-color: #555;
+}
+
+/* Comments section */
+.pm-comment {
+  background-color: #f8f8f8;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+.pm-comment button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.pm-comment button:hover {
+  background-color: #0056b3;
+}
