@@ -1,0 +1,162 @@
+/* ProductDetail.css */
+
+.product-detail-page {
+  padding: 60px 40px;
+  font-family: 'Work Sans', sans-serif;
+  min-height: 100vh;
+  background: url("https://cdn.usegalileo.ai/sdxl10/6fac54bd-281a-40b2-a480-1a7f3f84d03a.png") no-repeat center center fixed;
+  background-size: cover;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Info Section */
+.product-info {
+  display: flex;
+  gap: 40px;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin-bottom: 50px;
+}
+
+.product-image {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.details h2 {
+  font-size: 2rem;
+  color: #1d1d1f;
+  margin-bottom: 10px;
+}
+
+.details .price {
+  font-size: 1.4rem;
+  color: #0071e3;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.details .desc {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.details button {
+  width: fit-content;
+  padding: 12px 24px;
+  background-color: #0071e3;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.details button:hover {
+  background-color: #005bb5;
+  transform: translateY(-2px);
+}
+
+/* Comment Section */
+.comment-section {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.comment-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #1d1d1f;
+}
+
+.comment-list p {
+  background: #f1f3f5;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.comment-item {
+  margin-bottom: 20px;
+  background: #f7f8fa;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.comment-item .stars {
+  color: #ffc107;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+/* Comment Form */
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.comment-form textarea {
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  resize: none;
+  height: 100px;
+}
+
+.comment-form button {
+  align-self: flex-end;
+  padding: 10px 20px;
+  background-color: #0071e3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.comment-form button:hover {
+  background-color: #005bb5;
+}
+
+/* Rating Stars */
+.rating-stars {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.rating-stars .star {
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.rating-stars .star.filled {
+  color: #ffc107;
+}
+
+.rating-stars .star:hover {
+  transform: scale(1.2);
+}

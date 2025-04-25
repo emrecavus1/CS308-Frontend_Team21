@@ -6,6 +6,11 @@ import "./Header.css";
 const Header = () => {
   const navigate = useNavigate();
 
+  // 🟢 Handler for cart click
+  const handleCartClick = () => {
+    navigate("/cart");
+  };
+
   return (
     <header className="header">
       <h2 className="logo" onClick={() => navigate("/")}>
@@ -17,7 +22,7 @@ const Header = () => {
       </div>
       <div className="icons">
         <FaHeart className="icon" />
-        <FaShoppingCart className="icon" />
+        <FaShoppingCart className="icon clickable-icon" onClick={handleCartClick} />
         <FaUser
           className="icon clickable-icon"
           onClick={() => navigate("/login")}
