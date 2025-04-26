@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import CategoryPage from './pages/CategoryPage';
 import ProductDetail from "./pages/ProductDetail";
+// at the very top of App.jsx
+
 
 // ✅ Example mock products (you can replace this with your actual data)
 const mockProducts = [

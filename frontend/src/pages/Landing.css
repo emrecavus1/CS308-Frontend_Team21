@@ -10,30 +10,16 @@ html, body {
   height: 100%;
   width: 100%;
   font-family: 'Work Sans', sans-serif;
-  background-color: #f8f9fc;
 }
 
 /* ensure page sits below sticky header */
 .landing-page {
-  padding-top: 100px;
+  max-width: none;        /* ignore the 1280px cap on #root */
+  margin: 0;              /* remove #root’s auto horizontal centering */
+  text-align: left;       /* undo the `text-align: center` from #root */
+  padding-top: 100px;      /* keep your header-push */
 }
 
-/* â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
-   Header / Search Bar / Icons
-   (exactly as before)
-â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
-.header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 50px;
-  background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 999;
-}
 
 .logo {
   font-size: 1.8rem;
@@ -103,9 +89,6 @@ html, body {
   font-size: 1.2rem;
 }
 
-/* â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
-   Categories Section
-â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
 .categories-section {
   padding: 60px 20px;
   text-align: center;

@@ -1,12 +1,14 @@
 /* ProductDetail.css */
 
 .product-detail-page {
-  padding: 60px 40px;
+  text-align: center; 
+  padding: 0 40px 40px;
   font-family: 'Work Sans', sans-serif;
   min-height: 100vh;
   background: url("https://cdn.usegalileo.ai/sdxl10/6fac54bd-281a-40b2-a480-1a7f3f84d03a.png") no-repeat center center fixed;
   background-size: cover;
   box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.2);
+  margin-top: calc(80px + 16px);
 }
 
 /* Product Info Section */

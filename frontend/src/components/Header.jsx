@@ -40,7 +40,7 @@ export default function Header({
   };
 
   return (
-    <header className="header" ref={containerRef}>
+    <header className="site-header" ref={containerRef}>
       <h2 className="logo" onClick={() => navigate("/")}>
         Shipshak.com
       </h2>

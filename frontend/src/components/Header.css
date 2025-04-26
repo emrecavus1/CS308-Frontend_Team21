@@ -1,65 +1,48 @@
-.header {
+/* src/components/Header.css */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 80px;
+  padding: 0 40px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
 }
 
-.logo {
+/* logo */
+.site-header .logo {
   font-size: 1.8rem;
   font-weight: bold;
   color: #0e141b;
   cursor: pointer;
 }
 
-.search-bar {
+/* search bar */
+.site-header .search-bar {
   display: flex;
   align-items: center;
   background-color: #f1f3f5;
   border-radius: 8px;
   padding: 5px 12px;
-  width: 400px;             /* Search bar extended */
-  max-width: 500px;         /* Optional: maximum limit */
+  width: 400px;
+  max-width: 500px;
 }
-
-.search-bar input {
+.site-header .search-bar input {
   border: none;
   outline: none;
   background: transparent;
   padding: 10px;
-  width: 100%;              /* Ensures it fully extends within the search bar */
+  width: 100%;
   font-size: 1rem;
 }
 
-.search-icon {
-  color: #333;
-  margin-left: 10px;
-  font-size: 1.2rem;
-}
-
-.icons {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.icon {
-  font-size: 1.4rem;
-  color: #0e141b;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.icon:hover {
-  color: #197fe6;
-}
-
-/* Position the dropdown under the search-bar */
+/* autocomplete dropdown (outside of header wrapper because it’s absolutely positioned) */
 .autocomplete-list {
   position: absolute;
-  top: calc(100% + 8px);     /* just below the bar */
+  top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
@@ -68,12 +51,11 @@
   background: white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   border-radius: 8px;
-  z-index: 1000;
-  list-style: none;
+  z-index: 1001;
   margin: 4px 0 0;
   padding: 0;
+  list-style: none;
 }
-
 .autocomplete-list li {
   display: flex;
   justify-content: space-between;
@@ -82,4 +64,20 @@
 }
 .autocomplete-list li:hover {
   background-color: #f1f3f5;
+}
+
+/* icons */
+.site-header .icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.site-header .icons .icon {
+  font-size: 1.4rem;
+  color: #0e141b;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.site-header .icons .clickable-icon:hover {
+  color: #197fe6;
 }
