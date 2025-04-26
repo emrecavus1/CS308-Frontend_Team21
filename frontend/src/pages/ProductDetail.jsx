@@ -1,81 +1,90 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+// src/pages/ProductDetail.jsx
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import "./ProductDetail.css";
 
 const ProductDetail = () => {
-  const { state: product } = useLocation();
-  const { addToCart } = useCart();
+  const { state } = useLocation();
+  const navigate  = useNavigate();
 
-  const [comments, setComments] = useState([]);
-  const [commentInput, setCommentInput] = useState("");
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
+  // If someone landed here directly (no router state), state === undefined.
+  // We'll treat that as "loading" until we fetch the full product.
+  const [product, setProduct] = useState(state || null);
+  const [loading, setLoading] = useState(!state);
+  const [error,   setError]   = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleAddComment = () => {
-    if (commentInput.trim() && rating > 0) {
-      setComments([...comments, { text: commentInput.trim(), rating }]);
-      setCommentInput("");
-      setRating(0);
-    }
-  };
+  // If we got a productId from state, fetch the full record
+  useEffect(() => {
+    if (!state?.productId) return;
 
-  const handleAddToCart = () => {
-    addToCart(product);
-  };
+    setLoading(true);
+    fetch(`http://localhost:8080/api/main/products/${state.productId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Network error");
+        return res.json();
+      })
+      .then((data) => setProduct(data))
+      .catch(() => setError("Could not load product details."))
+      .finally(() => setLoading(false));
+  }, [state]);
 
+  if (loading) return <p>Loading…</p>;
+  if (error)   return <p className="error">{error}</p>;
   if (!product) return <p>Product not found.</p>;
+
+  const inStock = product.stockCount > 0;
 
   return (
     <div className="product-detail-page">
-      <Header /> {/* ✅ Required */}
+      <Header />
+
+      <button className="back-btn" onClick={() => navigate(-1)}>
+        ← Back
+      </button>
+
       <div className="product-info">
-        <img src={product.image} alt={product.title} className="product-image" />
+        <img
+          src={product.image || "/placeholder.png"}
+          alt={product.productName}
+          className="product-image"
+        />
+
         <div className="details">
-          <h2>{product.title}</h2>
-          <p className="price">${product.price}</p>
-          <p className="desc">{product.description || "No detailed description available."}</p>
-          <button onClick={handleAddToCart}>Add to Cart</button>
+          <h2>{product.productName}</h2>
+          <p className="price">${product.price.toFixed(2)}</p>
+          <p className="stock">
+            {inStock ? `In stock: ${product.stockCount}` : "Out of stock"}
+          </p>
+          <p className="desc">
+            {product.productInfo || product.description || "No detailed description available."}
+          </p>
+
+          <button
+            onClick={async () => {
+              try {
+                const res = await fetch(
+                  `http://localhost:8080/api/main/cart/add?productId=${product.productId}`,
+                  { method: "POST", credentials: "include" }
+                );
+                const json = await res.json();
+                setMessage(json.message);
+              } catch {
+                setMessage("Failed to add product to cart.");
+              }
+            }}
+            disabled={!inStock}
+            className={inStock ? "add-btn" : "disabled"}
+          >
+            {inStock ? "Add to Cart" : "Out of Stock"}
+          </button>
+
+          {message && <p className="cart-message">{message}</p>}
         </div>
       </div>
 
-      <div className="comment-section">
-        <h3>Comments</h3>
-        <div className="comment-list">
-          {comments.map((c, i) => (
-            <div key={i} className="comment-item">
-              <div className="stars">
-                {"★".repeat(c.rating)}
-                {"☆".repeat(5 - c.rating)}
-              </div>
-              <p>🗨️ {c.text}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="comment-form">
-          <div className="rating-stars">
-            {[1, 2, 3, 4, 5].map((n) => (
-              <span
-                key={n}
-                onClick={() => setRating(n)}
-                onMouseEnter={() => setHoverRating(n)}
-                onMouseLeave={() => setHoverRating(0)}
-                className={`star ${n <= (hoverRating || rating) ? "filled" : ""}`}
-              >
-                ★
-              </span>
-            ))}
-          </div>
-          <textarea
-            value={commentInput}
-            onChange={(e) => setCommentInput(e.target.value)}
-            placeholder="Write a comment..."
-          />
-          <button onClick={handleAddComment}>Post Comment</button>
-        </div>
-      </div>
+      {/* …rest of your comments UI… */}
     </div>
   );
 };
