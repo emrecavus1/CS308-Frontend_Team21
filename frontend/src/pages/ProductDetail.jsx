@@ -1,40 +1,73 @@
 // src/pages/ProductDetail.jsx
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams
+} from "react-router-dom";
 import Header from "../components/Header";
 import "./ProductDetail.css";
 
-const ProductDetail = () => {
-  const { state } = useLocation();
-  const navigate  = useNavigate();
+export default function ProductDetail() {
+  const { productId } = useParams();
+  const navigate      = useNavigate();
+  const { state }     = useLocation();
 
-  // If someone landed here directly (no router state), state === undefined.
-  // We'll treat that as "loading" until we fetch the full product.
+  // start with any router‐passed data, then fill in from API
   const [product, setProduct] = useState(state || null);
   const [loading, setLoading] = useState(!state);
   const [error,   setError]   = useState("");
   const [message, setMessage] = useState("");
 
-  // If we got a productId from state, fetch the full record
   useEffect(() => {
-    if (!state?.productId) return;
+    // if we already have full data from state (unlikely),
+    // skip re‐fetch. Otherwise, always fetch fresh:
+    if (state && state.serialNumber) {
+      setLoading(false);
+      return;
+    }
 
     setLoading(true);
-    fetch(`http://localhost:8080/api/main/products/${state.productId}`)
-      .then((res) => {
+    fetch(`http://localhost:8080/api/main/products/${productId}`)
+      .then(res => {
         if (!res.ok) throw new Error("Network error");
         return res.json();
       })
-      .then((data) => setProduct(data))
+      .then(data => {
+        setProduct({
+          productId:      data.productId,
+          serialNumber:   data.serialNumber,
+          categoryId:     data.categoryId,
+          price:          data.price,
+          stockCount:     data.stockCount,
+          rating:         data.rating,
+          productInfo:    data.productInfo,
+          warrantyStatus: data.warrantyStatus,
+          distributorInfo:data.distributorInfo
+        });
+      })
       .catch(() => setError("Could not load product details."))
       .finally(() => setLoading(false));
-  }, [state]);
+  }, [productId]);
 
-  if (loading) return <p>Loading…</p>;
-  if (error)   return <p className="error">{error}</p>;
-  if (!product) return <p>Product not found.</p>;
+  if (loading) return <p className="center">Loading…</p>;
+  if (error)   return <p className="center error">{error}</p>;
+  if (!product) return <p className="center error">Product not found.</p>;
 
   const inStock = product.stockCount > 0;
+
+  const handleAddToCart = async () => {
+    try {
+      const res  = await fetch(
+        `http://localhost:8080/api/main/cart/add?productId=${product.productId}`,
+        { method: "POST", credentials: "include" }
+      );
+      const json = await res.json();
+      setMessage(json.message || "Added to cart!");
+    } catch {
+      setMessage("Failed to add product to cart.");
+    }
+  };
 
   return (
     <div className="product-detail-page">
@@ -44,49 +77,49 @@ const ProductDetail = () => {
         ← Back
       </button>
 
-      <div className="product-info">
-        <img
-          src={product.image || "/placeholder.png"}
-          alt={product.productName}
-          className="product-image"
-        />
+      <div className="details-container">
+        <h2 className="detail-title">{product.productName}</h2>
 
-        <div className="details">
-          <h2>{product.productName}</h2>
-          <p className="price">${product.price.toFixed(2)}</p>
-          <p className="stock">
-            {inStock ? `In stock: ${product.stockCount}` : "Out of stock"}
-          </p>
-          <p className="desc">
-            {product.productInfo || product.description || "No detailed description available."}
-          </p>
+        <dl className="detail-list">
+          <dt>Product ID</dt>
+          <dd>{product.productId}</dd>
 
-          <button
-            onClick={async () => {
-              try {
-                const res = await fetch(
-                  `http://localhost:8080/api/main/cart/add?productId=${product.productId}`,
-                  { method: "POST", credentials: "include" }
-                );
-                const json = await res.json();
-                setMessage(json.message);
-              } catch {
-                setMessage("Failed to add product to cart.");
-              }
-            }}
-            disabled={!inStock}
-            className={inStock ? "add-btn" : "disabled"}
-          >
-            {inStock ? "Add to Cart" : "Out of Stock"}
-          </button>
+          <dt>Serial Number</dt>
+          <dd>{product.serialNumber}</dd>
 
-          {message && <p className="cart-message">{message}</p>}
-        </div>
+          <dt>Category ID</dt>
+          <dd>{product.categoryId}</dd>
+
+          <dt>Price</dt>
+          <dd>${product.price.toFixed(2)}</dd>
+
+          <dt>Stock Count</dt>
+          <dd>{product.stockCount}</dd>
+
+          <dt>Rating</dt>
+          <dd>{product.rating}</dd>
+
+          <dt>Product Info</dt>
+          <dd>{product.productInfo}</dd>
+
+          <dt>Warranty Status</dt>
+          <dd>{product.warrantyStatus}</dd>
+
+          <dt>Distributor Info</dt>
+          <dd>{product.distributorInfo}</dd>
+        </dl>
+
+        <button
+          className={`add-btn ${!inStock ? "disabled" : ""}`}
+          onClick={handleAddToCart}
+          disabled={!inStock}
+        >
+          {inStock ? "Add to Cart" : "Out of Stock"}
+        </button>
+        {message && <p className="cart-message">{message}</p>}
       </div>
 
-      {/* …rest of your comments UI… */}
+      {/* …your comments UI here… */}
     </div>
   );
-};
-
-export default ProductDetail;
+}

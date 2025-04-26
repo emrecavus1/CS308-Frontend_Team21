@@ -97,7 +97,10 @@ export default function Landing() {
       <Header
         onSearch={handleSearch}
         searchResults={searchResults}
-        onSelectProduct={id => navigate(`/product/${id}`)}
+        onSelectProduct={(id) => {
+          const p = searchResults.find(x => x.productId === id);
+          navigate(`/product/${id}`, { state: p });
+        }}
       />
 
       {/* 2) Hero (only when no search) */}
