@@ -16,7 +16,9 @@ const Login = () => {
         email,
         password,
       });
-      console.log("Login successful", response.data);
+      const { token } = response.data;
+      localStorage.setItem("authToken", token);
+      console.log("Login successful, token saved");
       navigate("/"); // Redirect to home after login
     } catch (err) {
       setError("Invalid email or password");

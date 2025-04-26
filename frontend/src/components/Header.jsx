@@ -4,39 +4,54 @@ import { useNavigate } from "react-router-dom";
 import { FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import "./Header.css";
 
-export default function Header({
-  onSearch = () => {},              // no-op default
-  searchResults = [],
-  onSelectProduct = () => {}        // no-op default
-}) {
+export default function Header() {
   const navigate = useNavigate();
   const containerRef = useRef(null);
-  const [query, setQuery] = useState("");
 
-  // close dropdown if clicked outside
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  // close dropdown on outside click
   useEffect(() => {
-    const handleOutsideClick = (e) => {
+    const onClick = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
         setQuery("");
-        onSearch("");
+        setResults([]);
       }
     };
-    window.addEventListener("mousedown", handleOutsideClick);
-    return () => window.removeEventListener("mousedown", handleOutsideClick);
-  }, [onSearch]);
+    window.addEventListener("mousedown", onClick);
+    return () => window.removeEventListener("mousedown", onClick);
+  }, []);
 
-  // whenever the user types
+  // whenever the user types, call search API
   const handleChange = (e) => {
     const q = e.target.value;
     setQuery(q);
-    onSearch(q);
+
+    if (!q) {
+      setResults([]);
+      return;
+    }
+
+    fetch(
+      `http://localhost:8080/api/main/search?query=${encodeURIComponent(q)}`
+    )
+      .then((res) =>
+        res.ok ? res.json() : Promise.reject(`HTTP ${res.status}`)
+      )
+      .then((data) =>
+        setResults(Array.isArray(data) ? data : [])
+      )
+      .catch(() => setResults([]));
   };
 
-  // when they pick one of the autocomplete items
+  // on selecting one result
   const handleSelect = (productId) => {
-    onSelectProduct(productId);
+    // find its full object so we can pass it as state
+    const picked = results.find((p) => p.productId === productId) || {};
+    navigate(`/product/${productId}`, { state: picked });
     setQuery("");
-    onSearch("");
+    setResults([]);
   };
 
   return (
@@ -54,9 +69,9 @@ export default function Header({
         />
       </div>
 
-      {searchResults.length > 0 && (
+      {results.length > 0 && (
         <ul className="autocomplete-list">
-          {searchResults.map((p) => (
+          {results.map((p) => (
             <li
               key={p.productId}
               onClick={() => handleSelect(p.productId)}

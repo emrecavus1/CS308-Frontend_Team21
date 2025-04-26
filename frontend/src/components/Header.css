@@ -2,7 +2,7 @@
 .site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 80px;
+  height: var(--header-height);
   padding: 0 40px;
   display: flex;
   align-items: center;
@@ -80,4 +80,8 @@
 }
 .site-header .icons .clickable-icon:hover {
   color: #197fe6;
+}
+
+.site-header + * {
+  margin-top: calc(80px + 16px);
 }

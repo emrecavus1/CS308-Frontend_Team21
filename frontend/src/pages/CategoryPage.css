@@ -1,13 +1,13 @@
 /* 1) page itself doesn’t need a pushdown anymore */
+
 .category-page {
-  padding: 0 40px;
+  padding: 0 40px 60px;   /* sides + bottom padding */
   font-family: 'Work Sans', sans-serif;
 }
 
 /* 2) push *all* of your below-header content down */
 .products-container {
-  /* header is 80px tall + 16px breathing room */
-  margin-top: calc(80px + 16px);
+  margin-top: 0;
 }
 
 /* 3) title */
