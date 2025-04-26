@@ -13,26 +13,26 @@ export default function ProductDetail() {
   const navigate      = useNavigate();
   const { state }     = useLocation();
 
-  // start with any router‐passed data, then fill in from API
+  // start with any router‑passed data, then fill in from API
   const [product, setProduct] = useState(state || null);
   const [loading, setLoading] = useState(!state);
   const [error,   setError]   = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // if we already have full data from state (unlikely),
-    // skip re‐fetch. Otherwise, always fetch fresh:
-    if (state && state.productId === productId && state.serialNumber) {
+    // if we have state with the right productId and a productName, skip fetching
+    if (state && state.productId === productId && state.productName) {
       setProduct(state);
       setLoading(false);
       setError("");
       return;
     }
 
-
+    // otherwise, fetch fresh data
     setProduct(null);
     setLoading(true);
     setError("");
+
     fetch(`http://localhost:8080/api/main/products/${productId}`)
       .then(res => {
         if (!res.ok) throw new Error("Network error");
@@ -41,6 +41,7 @@ export default function ProductDetail() {
       .then(data => {
         setProduct({
           productId:      data.productId,
+          productName:    data.productName,     // include productName
           serialNumber:   data.serialNumber,
           categoryId:     data.categoryId,
           price:          data.price,
@@ -128,3 +129,4 @@ export default function ProductDetail() {
     </div>
   );
 }
+

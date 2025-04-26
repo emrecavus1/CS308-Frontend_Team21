@@ -1,41 +1,40 @@
-/* 1) page itself doesn’t need a pushdown anymore */
-
 .category-page {
-  padding: 0 40px 60px;   /* sides + bottom padding */
-  font-family: 'Work Sans', sans-serif;
+  /* push everything (title + grid) down below the header */
+  padding: 100px 20px 40px;
 }
 
-/* 2) push *all* of your below-header content down */
-.products-container {
-  margin-top: 0;
-}
-
-/* 3) title */
 .category-title {
   text-align: center;
+  font-size: 1.8rem;
+  color: white;
   margin-bottom: 2rem;
-  font-size: 2rem;
-  color: #1d1d1f;
 }
 
-/* 4) grid */
+/* src/pages/CategoryPage.css */
+
+/* …keep your other rules… */
+
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  justify-items: center; /* centers each card in its cell */
 }
 
-/* 5) hide empty images */
-.products-grid .product-card .image-container {
-  display: none;
+/* (optional) on very narrow screens, drop down to a single column */
+@media (max-width: 600px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* 6) loading/empty/error */
+
 .center {
   text-align: center;
-  margin: 3rem 0;
   color: #666;
+  margin-top: 2rem;
 }
+
 .error {
   color: #c00;
 }

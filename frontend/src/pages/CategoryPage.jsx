@@ -10,55 +10,61 @@ export default function CategoryPage() {
   const navigate       = useNavigate();
   const { categoryId } = useParams();
 
-  const [products,      setProducts]     = useState([]);
-  const [loading,       setLoading]      = useState(true);
-  const [error,         setError]        = useState(null);
-  const [searchResults, setSearchResults] = useState([]);
+  // friendly name (fallback to ID)
+  const [categoryName, setCategoryName] = useState(categoryId);
+  const [products,       setProducts]   = useState([]);
+  const [loading,        setLoading]    = useState(true);
+  const [error,          setError]      = useState("");
 
-  // Fetch products
+  // 1) load the human-readable category name (if you have that endpoint)
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/main/category/${categoryId}`)
+      .then(res => {
+        const friendly = res.data.name || res.data.categoryName;
+        if (friendly) setCategoryName(friendly);
+      })
+      .catch(() => {/* ignore, keep the ID */});
+  }, [categoryId]);
+
+  // 2) fetch the full product list, then pluck out every field we need:
   useEffect(() => {
     setLoading(true);
+    setError("");
     axios
-      .get(
-        `http://localhost:8080/api/main/category/${categoryId}/getProductsByCategory`
-      )
+      .get(`http://localhost:8080/api/main/category/${categoryId}/getProductsByCategory`)
       .then(res => {
+        // your backend should already be returning full product objects
         const raw = Array.isArray(res.data)
           ? res.data
           : Array.isArray(res.data.products)
             ? res.data.products
             : [];
+
         setProducts(raw.map(p => ({
-          productId:   p.productId,
-          productName: p.productName,
-          price:       p.price,
-          stockCount:  p.stockCount,
-          image:       p.image || p.imageUrl || "/placeholder.png",
-          productInfo: p.productInfo,
+          productId:      p.productId,
+          productName:    p.productName,
+          serialNumber:   p.serialNumber,
+          categoryId:     p.categoryId,
+          price:          p.price,
+          stockCount:     p.stockCount,
+          rating:         p.rating,
+          productInfo:    p.productInfo,
+          warrantyStatus: p.warrantyStatus,
+          distributorInfo:p.distributorInfo,
         })));
       })
       .catch(() => setError("Could not load products."))
       .finally(() => setLoading(false));
   }, [categoryId]);
 
-  // Search handler
-  const handleSearch = q => {
-    if (!q) return setSearchResults([]);
-    axios
-      .get(`http://localhost:8080/api/main/search?query=${encodeURIComponent(q)}`)
-      .then(res => setSearchResults(Array.isArray(res.data) ? res.data : []))
-      .catch(() => setSearchResults([]));
-  };
-
   return (
     <>
-      {/* 1) Header stands alone */}
-      <Header/>
+      <Header />
 
-      {/* 2) Page content lives in its own wrapper */}
       <div className="category-page">
         <h1 className="category-title">
-          Products in “{categoryId}”
+          Products in “{categoryName}”
         </h1>
 
         {loading ? (
@@ -66,14 +72,11 @@ export default function CategoryPage() {
         ) : error ? (
           <p className="center error">{error}</p>
         ) : products.length === 0 ? (
-          <p className="center">No products found in this category.</p>
+          <p className="center">No products in this category.</p>
         ) : (
           <div className="products-grid">
             {products.map(p => (
-              <ProductCard
-                key={p.productId}
-                product={p}
-              />
+              <ProductCard key={p.productId} product={p} />
             ))}
           </div>
         )}
