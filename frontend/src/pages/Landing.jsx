@@ -1,14 +1,15 @@
+// src/pages/Landing.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import "./Landing.css";
 
 import {
   FaTshirt,
   FaShoppingBag,
   FaMagic,
   FaTv,
-  FaUserCircle,
   FaDumbbell,
   FaHome,
   FaAppleAlt,
@@ -16,67 +17,108 @@ import {
   FaBook,
   FaPuzzlePiece,
   FaBriefcase,
+  FaStar
 } from "react-icons/fa";
-
-import "./Landing.css";
 
 /* Icon map for categories */
 const iconMap = {
   Electronics: <FaTv />,
-  Books: <FaBook />,                    // Updated icon
+  Books: <FaBook />,
   Clothing: <FaTshirt />,
   Sports: <FaDumbbell />,
   "Home & Kitchen": <FaHome />,
   Beauty: <FaMagic />,
-  Toys: <FaPuzzlePiece />,              // Updated icon
-  Automotive: <FaCar />,                // Updated icon
+  Toys: <FaPuzzlePiece />,
+  Automotive: <FaCar />,
   Grocery: <FaAppleAlt />,
-  "Office Supplies": <FaBriefcase />,   // Updated icon
+  "Office Supplies": <FaBriefcase />,
   Bags: <FaShoppingBag />,
 };
 
 export default function Landing() {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories]       = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [sortedResults, setSortedResults] = useState([]);
+  const [sortField, setSortField]         = useState("");
 
+  // load categories
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/main/getCategories")
-      .then((res) => {
-        const list = Array.isArray(res.data)
+    axios.get("http://localhost:8080/api/main/getCategories")
+      .then(res => {
+        const data = Array.isArray(res.data)
           ? res.data
           : Array.isArray(res.data.categories)
-          ? res.data.categories
-          : [];
-        setCategories(list);
+            ? res.data.categories
+            : [];
+        setCategories(data);
       })
-      .catch((err) => {
-        console.error("Failed to load categories", err);
-        setCategories([]);
-      });
+      .catch(() => setCategories([]));
   }, []);
+
+  // search handler
+  const handleSearch = (q) => {
+    if (!q) return setSearchResults([]);
+    axios.get(`http://localhost:8080/api/main/search?query=${encodeURIComponent(q)}`)
+      .then(res => setSearchResults(Array.isArray(res.data) ? res.data : []))
+      .catch(() => setSearchResults([]));
+  };
+
+  // sort handlers
+  const handleSortPrice = () => {
+    axios.get("http://localhost:8080/api/main/sortProductsByPrice")
+      .then(res => {
+        setSortedResults(res.data || []);
+        setSortField("price");
+      })
+      .catch(() => {
+        setSortedResults([]);
+        setSortField("");
+      });
+  };
+  const handleSortRating = () => {
+    axios.get("http://localhost:8080/api/main/sortProductsByRating")
+      .then(res => {
+        setSortedResults(res.data || []);
+        setSortField("rating");
+      })
+      .catch(() => {
+        setSortedResults([]);
+        setSortField("");
+      });
+  };
+
+  // helper to capitalize
+  const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
   return (
     <div className="landing-page">
-      <Header />
+      {/* 1) Header + instant-search */}
+      <Header
+        onSearch={handleSearch}
+        searchResults={searchResults}
+        onSelectProduct={id => navigate(`/product/${id}`)}
+      />
 
-      <div className="hero-section">
-        <div className="hero-overlay">
-          <h1>Welcome to Shipshak.com</h1>
-          <p>Your cart, your way, right away!</p>
+      {/* 2) Hero (only when no search) */}
+      {searchResults.length === 0 && (
+        <div className="hero-section">
+          <div className="hero-overlay">
+            <h1>Welcome to Shipshak.com</h1>
+            <p>Your cart, your way, right away!</p>
+          </div>
         </div>
-      </div>
+      )}
 
+      {/* 3) Categories */}
       <section className="categories-section">
         <h2>Categories</h2>
         <div className="category-grid">
-          {categories.map((cat) => (
+          {categories.map(cat => (
             <div
               key={cat.categoryName}
               className="category-card"
-              onClick={() =>
-                navigate(`/category/${encodeURIComponent(cat.categoryName)}`)
-              }
+              onClick={() => navigate(`/category/${cat.categoryId}`)}
             >
               <div className="icon">
                 {iconMap[cat.categoryName] || <FaShoppingBag />}
@@ -86,6 +128,38 @@ export default function Landing() {
           ))}
         </div>
       </section>
+
+      {/* 4+5) Sort section (buttons + floating results) */}
+      <div className="sort-section">
+        <div className="sort-buttons">
+          <button onClick={handleSortPrice}>Sort by Price</button>
+          <button onClick={handleSortRating}>Sort by Rating</button>
+        </div>
+
+        {sortedResults.length > 0 && (
+          <div className="sorted-dropdown">
+            <h2>Sorted by {capitalize(sortField)}</h2>
+            <ul>
+              {sortedResults.map((p) => (
+                <li key={p.productId}>
+                  <strong>{p.productName}</strong>{" "}
+                  —{" "}
+                  {sortField === "price"
+                    ? `$${p.price}`
+                    : (
+                      <>
+                        <FaStar style={{ marginRight: "4px", verticalAlign: "middle", color: "orange" }} />
+                        {p.rating}
+                      </>
+                    )
+                  }
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+

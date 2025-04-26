@@ -1,10 +1,11 @@
+/* src/pages/Landing.css */
+
 /* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 html, body {
   height: 100%;
   width: 100%;
@@ -12,7 +13,15 @@ html, body {
   background-color: #f8f9fc;
 }
 
-/* Header */
+/* ensure page sits below sticky header */
+.landing-page {
+  padding-top: 100px;
+}
+
+/* â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+   Header / Search Bar / Icons
+   (exactly as before)
+â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
 .header {
   width: 100%;
   display: flex;
@@ -39,10 +48,9 @@ html, body {
   background-color: #f1f3f5;
   padding: 8px 12px;
   border-radius: 10px;
-  width: 400px;              /* Extended Search Bar */
+  width: 400px;
   max-width: 500px;
 }
-
 .search-bar input {
   border: none;
   background: none;
@@ -52,27 +60,22 @@ html, body {
   width: 100%;
 }
 
-.search-icon {
-  margin-left: 8px;
-  color: #333;
-}
-
 .icons {
   display: flex;
   align-items: center;
   gap: 20px;
 }
-
 .icon {
   font-size: 1.5rem;
   cursor: pointer;
 }
-
 .clickable-icon:hover {
   color: #197fe6;
 }
 
-/* Hero Section */
+/* â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+   Hero Section
+â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
 .hero-section {
   background-image: url("https://cdn.usegalileo.ai/sdxl10/bdab3910-d8bf-4895-b821-8c5497784515.png");
   background-size: cover;
@@ -84,46 +87,42 @@ html, body {
   align-items: center;
   position: relative;
 }
-
 .hero-overlay {
   background-color: rgba(0, 0, 0, 0.6);
   padding: 40px;
   border-radius: 15px;
   text-align: center;
   color: white;
-  margin-top: 80px; /* 🟢 Add this line to move it downward */
+  margin-top: 80px;
 }
-
 .hero-overlay h1 {
   font-size: 3rem;
   margin-bottom: 15px;
 }
-
 .hero-overlay p {
   font-size: 1.2rem;
 }
 
-/* Categories Section */
+/* â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+   Categories Section
+â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
 .categories-section {
   padding: 60px 20px;
   text-align: center;
   background-color: #f8f9fc;
 }
-
 .categories-section h2 {
   font-size: 2.5rem;
   color: #0e141b;
   margin-bottom: 40px;
 }
 
-/* Category Grid */
 .category-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
 }
-
 .category-card {
   border: 1px solid #ddd;
   border-radius: 12px;
@@ -137,20 +136,76 @@ html, body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
-
 .category-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
-
 .category-card .icon {
   font-size: 2rem;
   margin-bottom: 10px;
   color: #197fe6;
 }
-
 .category-card .label {
   font-size: 1rem;
   font-weight: 600;
   color: #333;
+}
+
+/* â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+   Sort Section 
+   (buttons always in flow, dropdown floats)
+â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
+.sort-section {
+  position: relative;
+  margin: 30px 0;
+  text-align: center;
+}
+
+.sort-buttons {
+  display: inline-flex;
+  gap: 16px;
+}
+.sort-buttons button {
+  padding: 10px 20px;
+  background-color: #197fe6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.sort-buttons button:hover {
+  background-color: #145ca8;
+}
+
+.sorted-dropdown {
+  position: absolute;
+  top: 100%;               /* immediately below buttons */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  padding: 20px 30px;
+  z-index: 100;
+}
+.sorted-dropdown h2 {
+  margin: 0 0 12px;
+  text-align: center;
+  color: #0e141b;
+}
+.sorted-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sorted-dropdown li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+.sorted-dropdown li:last-child {
+  border-bottom: none;
 }

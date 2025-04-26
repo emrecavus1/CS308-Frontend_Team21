@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
+import CategoryPage from './pages/CategoryPage';
 import ProductDetail from "./pages/ProductDetail";
 
 // ✅ Example mock products (you can replace this with your actual data)
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/category/:categoryId" element={<CategoryPage />} />
           <Route path="/product/:id" element={<ProductDetail />} />
         </Routes>
       </Router>

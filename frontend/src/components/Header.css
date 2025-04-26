@@ -1,58 +1,85 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #0e141b;
-    cursor: pointer;
-  }
-  
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #f1f3f5;
-    border-radius: 8px;
-    padding: 5px 12px;
-    width: 400px;             /* Search bar extended */
-    max-width: 500px;         /* Optional: maximum limit */
-  }
-  
-  .search-bar input {
-    border: none;
-    outline: none;
-    background: transparent;
-    padding: 10px;
-    width: 100%;              /* Ensures it fully extends within the search bar */
-    font-size: 1rem;
-  }
-  
-  .search-icon {
-    color: #333;
-    margin-left: 10px;
-    font-size: 1.2rem;
-  }
-  
-  .icons {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
-  
-  .icon {
-    font-size: 1.4rem;
-    color: #0e141b;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-  
-  .icon:hover {
-    color: #197fe6;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #0e141b;
+  cursor: pointer;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f1f3f5;
+  border-radius: 8px;
+  padding: 5px 12px;
+  width: 400px;             /* Search bar extended */
+  max-width: 500px;         /* Optional: maximum limit */
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px;
+  width: 100%;              /* Ensures it fully extends within the search bar */
+  font-size: 1rem;
+}
+
+.search-icon {
+  color: #333;
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.icon {
+  font-size: 1.4rem;
+  color: #0e141b;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.icon:hover {
+  color: #197fe6;
+}
+
+/* Position the dropdown under the search-bar */
+.autocomplete-list {
+  position: absolute;
+  top: calc(100% + 8px);     /* just below the bar */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  z-index: 1000;
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+}
+
+.autocomplete-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.autocomplete-list li:hover {
+  background-color: #f1f3f5;
+}
