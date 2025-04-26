@@ -22,12 +22,17 @@ export default function ProductDetail() {
   useEffect(() => {
     // if we already have full data from state (unlikely),
     // skip re‐fetch. Otherwise, always fetch fresh:
-    if (state && state.serialNumber) {
+    if (state && state.productId === productId && state.serialNumber) {
+      setProduct(state);
       setLoading(false);
+      setError("");
       return;
     }
 
+
+    setProduct(null);
     setLoading(true);
+    setError("");
     fetch(`http://localhost:8080/api/main/products/${productId}`)
       .then(res => {
         if (!res.ok) throw new Error("Network error");
@@ -48,7 +53,7 @@ export default function ProductDetail() {
       })
       .catch(() => setError("Could not load product details."))
       .finally(() => setLoading(false));
-  }, [productId]);
+  }, [productId, state]);
 
   if (loading) return <p className="center">Loading…</p>;
   if (error)   return <p className="center error">{error}</p>;

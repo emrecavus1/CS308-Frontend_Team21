@@ -1,0 +1,61 @@
+/* src/pages/OrderHistory.css */
+
+.order-history-page {
+    font-family: 'Work Sans', sans-serif;
+  }
+  
+  .profile-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #f8f9fc;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .profile-bar span {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .profile-bar button {
+    padding: 0.5rem 1rem;
+    background: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .orders-content {
+    padding: 2rem;
+  }
+  
+  .orders-content section {
+    margin-bottom: 2rem;
+  }
+  
+  .order-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .order-card p {
+    margin: 0.25rem 0;
+  }
+  
+  .order-card ul {
+    list-style: disc inside;
+    margin: 0.5rem 0 0;
+    padding-left: 1rem;
+  }
+  
+  .error {
+    color: #c00;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  

@@ -8,6 +8,7 @@ import Cart from "./pages/Cart";
 import CategoryPage from './pages/CategoryPage';
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
+import OrderHistory from "./pages/OrderHistory";
 // at the very top of App.jsx
 
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/category/:categoryId" element={<CategoryPage />} />
           <Route path="/product/:productId" element={<ProductDetail />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/profile" element={<OrderHistory />} />
         </Routes>
       </Router>
     </CartProvider>

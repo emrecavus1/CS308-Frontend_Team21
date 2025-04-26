@@ -1,5 +1,7 @@
+// src/pages/Register.jsx
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
 const fieldLabels = {
@@ -22,10 +24,13 @@ const turkishCities = [
   "KAYSERİ", "KIRKLARELİ", "KIRŞEHİR", "KOCAELİ", "KONYA", "KÜTAHYA", "MALATYA",
   "MANİSA", "KARAMAN", "KIRIKKALE", "BATMAN", "ŞIRNAK", "BARTIN", "ARDAHAN",
   "IĞDIR", "YALOVA", "KARABÜK", "KİLİS", "OSMANİYE", "DÜZCE"
-];
+ ];
+ 
+
 const roles = ["Customer", "Product Manager", "Sales Manager"];
 
-const Register = () => {
+export default function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -36,14 +41,13 @@ const Register = () => {
     specificAddress: "",
     phoneNumber: "",
   });
-
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors]       = useState({});
   const [globalError, setGlobalError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
+    setFormData(fd => ({ ...fd, [name]: value }));
+    setErrors(err => ({ ...err, [name]: "" }));
   };
 
   const handleSubmit = async (e) => {
@@ -52,22 +56,28 @@ const Register = () => {
     setGlobalError("");
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/signup", formData);
-      if (response.status === 200 || response.status === 201) {
-        alert("Successfully registered!");
+      const res = await axios.post(
+        "http://localhost:8080/api/auth/signup",
+        formData
+      );
+
+      // on success, redirect to login
+      if (res.status === 200 || res.status === 201) {
+        navigate("/login");
       }
-    } catch (error) {
-      const data = error.response?.data;
+    } catch (err) {
+      const data = err.response?.data;
       if (data?.errors) {
-        const errorObj = {};
-        data.errors.forEach((err) => {
-          const [label, msg] = err.split(": ");
-          const key = Object.entries(fieldLabels).find(([, lab]) => lab === label.trim())?.[0];
-          if (key) errorObj[key] = msg;
+        const fieldErrs = {};
+        data.errors.forEach(msg => {
+          const [label, detail] = msg.split(": ");
+          const key = Object.entries(fieldLabels)
+            .find(([, lab]) => lab === label.trim())?.[0];
+          if (key) fieldErrs[key] = detail;
         });
-        setErrors(errorObj);
+        setErrors(fieldErrs);
       } else {
-        setGlobalError("Registration failed: " + (data || error.message));
+        setGlobalError("Registration failed: " + (data || err.message));
       }
     }
   };
@@ -78,36 +88,18 @@ const Register = () => {
         <h2 className="register-title">Register</h2>
         {globalError && <p className="global-error">{globalError}</p>}
         <form onSubmit={handleSubmit} className="register-form">
-          {Object.entries(fieldLabels).map(([key, label]) => {
-            if (key === "role") {
-              return (
-                <div key={key} className="form-group">
-                  <label>{label}</label>
-                  <select name={key} value={formData[key]} onChange={handleChange} required>
-                    {roles.map((role) => (
-                      <option key={role} value={role}>{role}</option>
-                    ))}
-                  </select>
-                  {errors[key] && <p className="error">{errors[key]}</p>}
-                </div>
-              );
-            }
-            if (key === "city") {
-              return (
-                <div key={key} className="form-group">
-                  <label>{label}</label>
-                  <select name={key} value={formData[key]} onChange={handleChange} required>
-                    {turkishCities.map((city) => (
-                      <option key={city} value={city}>{city}</option>
-                    ))}
-                  </select>
-                  {errors[key] && <p className="error">{errors[key]}</p>}
-                </div>
-              );
-            }
-            return (
-              <div key={key} className="form-group">
-                <label>{label}</label>
+          {Object.entries(fieldLabels).map(([key, label]) => (
+            <div key={key} className="form-group">
+              <label>{label}</label>
+              {key === "role" ? (
+                <select name={key} value={formData[key]} onChange={handleChange}>
+                  {roles.map(r => <option key={r} value={r}>{r}</option>)}
+                </select>
+              ) : key === "city" ? (
+                <select name={key} value={formData[key]} onChange={handleChange}>
+                  {turkishCities.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              ) : (
                 <input
                   type={key === "password" ? "password" : "text"}
                   name={key}
@@ -115,15 +107,13 @@ const Register = () => {
                   onChange={handleChange}
                   required
                 />
-                {errors[key] && <p className="error">{errors[key]}</p>}
-              </div>
-            );
-          })}
+              )}
+              {errors[key] && <p className="error">{errors[key]}</p>}
+            </div>
+          ))}
           <button type="submit" className="submit-btn">Sign Up</button>
         </form>
       </div>
     </div>
   );
-};
-
-export default Register;
+}

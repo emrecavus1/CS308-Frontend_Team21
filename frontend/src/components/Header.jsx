@@ -8,8 +8,9 @@ export default function Header() {
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery]     = useState("");
   const [results, setResults] = useState([]);
+  const token = localStorage.getItem("authToken");
 
   // close dropdown on outside click
   useEffect(() => {
@@ -27,31 +28,24 @@ export default function Header() {
   const handleChange = (e) => {
     const q = e.target.value;
     setQuery(q);
-
     if (!q) {
       setResults([]);
       return;
     }
 
-    fetch(
-      `http://localhost:8080/api/main/search?query=${encodeURIComponent(q)}`
-    )
-      .then((res) =>
+    fetch(`http://localhost:8080/api/main/search?query=${encodeURIComponent(q)}`)
+      .then(res =>
         res.ok ? res.json() : Promise.reject(`HTTP ${res.status}`)
       )
-      .then((data) =>
-        setResults(Array.isArray(data) ? data : [])
-      )
+      .then(data => setResults(Array.isArray(data) ? data : []))
       .catch(() => setResults([]));
   };
 
   // on selecting one result
-  const handleSelect = (productId) => {
-    // find its full object so we can pass it as state
-    const picked = results.find((p) => p.productId === productId) || {};
-    navigate(`/product/${productId}`, { state: picked });
+  const handleSelect = (p) => {
     setQuery("");
     setResults([]);
+    navigate(`/product/${p.productId}`, { state: p });
   };
 
   return (
@@ -72,10 +66,7 @@ export default function Header() {
       {results.length > 0 && (
         <ul className="autocomplete-list">
           {results.map((p) => (
-            <li
-              key={p.productId}
-              onClick={() => handleSelect(p.productId)}
-            >
+            <li key={p.productId} onClick={() => handleSelect(p)}>
               <strong>{p.productName}</strong>
               <span>Stock: {p.stockCount}</span>
             </li>
@@ -91,7 +82,10 @@ export default function Header() {
         />
         <FaUser
           className="icon clickable-icon"
-          onClick={() => navigate("/login")}
+          onClick={() => {
+            if (token) navigate("/profile");
+            else      navigate("/login");
+          }}
         />
       </div>
     </header>
