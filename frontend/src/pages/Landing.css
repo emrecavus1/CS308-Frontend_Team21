@@ -142,6 +142,7 @@ html, body {
   position: relative;
   margin: 30px 0;
   text-align: center;
+  color:#0e141b
 }
 
 .sort-buttons {
@@ -191,4 +192,48 @@ html, body {
 }
 .sorted-dropdown li:last-child {
   border-bottom: none;
+}
+
+.sorted-product {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  padding: 16px 30px;
+  margin-bottom: 12px;
+  background: #f5f7fa;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.sorted-product:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  background-color: #eceff4;
+}
+
+.sorted-product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: 2px solid #d1d5db;
+}
+
+.sorted-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sorted-product-info strong {
+  font-size: 1.1rem;
+  color: #0e141b;
+}
+
+.sorted-product-info small {
+  font-size: 0.9rem;
+  color: #555;
 }

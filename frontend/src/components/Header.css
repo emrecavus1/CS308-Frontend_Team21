@@ -10,6 +10,7 @@
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   z-index: 1000;
+  color: #000;
 }
 
 /* logo */
@@ -37,6 +38,7 @@
   padding: 10px;
   width: 100%;
   font-size: 1rem;
+  color: #000;
 }
 
 /* autocomplete dropdown (outside of header wrapper because it’s absolutely positioned) */
