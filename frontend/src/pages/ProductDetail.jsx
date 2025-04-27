@@ -144,20 +144,35 @@ export default function ProductDetail() {
 
   return (
     <div className="product-detail-page">
-      <Header />
+    <Header />
+    <div style={{ height: "80px" }}></div> 
+    <div className="back-btn-wrapper">
+      <button className="back-btn" onClick={() => navigate(-1)}> ← Back to Category </button>
+    </div>
+  
+    <div className="product-main-card">
+      {/* Ürün Fotoğrafı */}
+      <div className="product-image-large">
+        <img
+          src={`/assets/product-images/${product.productName.replace(/\s+/g, "_")}.jpg`}
+          alt={product.productName}
+          onError={(e) => { e.target.src = "/assets/product-images/placeholder.jpg"; }}
+        />
+      </div>
 
-      <button className="back-btn" onClick={() => navigate(-1)}> ← Back </button>
+      {/* Ürün Bilgileri */}
+      <div className="product-main-info">
+        <h1 className="product-name">{product.productName}</h1>
 
-      <div className="details-container">
-        <h2 className="detail-title">{product.productName}</h2>
+        <div className="product-main-stats">
+          <span className="product-price">${product.price.toFixed(2)}</span>
+          <span className="product-rating">⭐ {product.rating}</span>
+        </div>
 
         <dl className="detail-list">
-          <dt>Product ID</dt><dd>{product.productId}</dd>
           <dt>Serial Number</dt><dd>{product.serialNumber}</dd>
           <dt>Category ID</dt><dd>{product.categoryId}</dd>
-          <dt>Price</dt><dd>${product.price.toFixed(2)}</dd>
           <dt>Stock Count</dt><dd>{product.stockCount}</dd>
-          <dt>Rating</dt><dd>{product.rating}</dd>
           <dt>Product Info</dt><dd>{product.productInfo}</dd>
           <dt>Warranty Status</dt><dd>{product.warrantyStatus}</dd>
           <dt>Distributor Info</dt><dd>{product.distributorInfo}</dd>
@@ -178,6 +193,7 @@ export default function ProductDetail() {
         </button>
         {message && <p className="cart-message">{message}</p>}
       </div>
+    </div>
 
       {/* ── Comments Section ── */}
       <div className="reviews-section">
@@ -191,15 +207,17 @@ export default function ProductDetail() {
               ? <p>No comments yet.</p>
               : comments.map(c => (
                 <div key={c.reviewId} className="review-card">
-                  <p>
-                    <strong>
+                  <div className="review-header">
+                    <span className="review-username">
                       {c.userId === userId
                         ? `${name} ${surname}`
                         : (userNames[c.userId] || c.userId)}
-                    </strong>
-                    <span className="comment-rating">({c.rating}/5)</span>
-                  </p>
-                  <p>{c.comment}</p>
+                    </span>
+                    <span className="review-rating">
+                      ⭐ {c.rating}
+                    </span>
+                  </div>
+                  <p className="review-comment">{c.comment}</p>
                 </div>
               ))
         }
