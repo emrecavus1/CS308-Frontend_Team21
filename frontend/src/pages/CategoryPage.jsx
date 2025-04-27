@@ -52,6 +52,7 @@ export default function CategoryPage() {
           productInfo:    p.productInfo,
           warrantyStatus: p.warrantyStatus,
           distributorInfo:p.distributorInfo,
+          reviewIds:      p.reviewIds 
         })));
       })
       .catch(() => setError("Could not load products."))

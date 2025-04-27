@@ -1,33 +1,34 @@
 // src/components/Header.jsx
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
+import { useNavigate }                      from "react-router-dom";
+import { FaHeart, FaShoppingCart, FaUser }  from "react-icons/fa";
 import "./Header.css";
 
 export default function Header() {
-  const navigate = useNavigate();
+  const navigate     = useNavigate();
   const containerRef = useRef(null);
 
   const [query, setQuery]     = useState("");
   const [results, setResults] = useState([]);
-  const token = localStorage.getItem("authToken");
+  const token                = localStorage.getItem("authToken");
 
-  // close dropdown on outside click
+  // Close dropdown if you click outside
   useEffect(() => {
-    const onClick = (e) => {
+    const onClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
         setQuery("");
         setResults([]);
       }
     };
-    window.addEventListener("mousedown", onClick);
-    return () => window.removeEventListener("mousedown", onClick);
+    window.addEventListener("mousedown", onClickOutside);
+    return () => window.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  // whenever the user types, call search API
+  // Fire search on every keystroke
   const handleChange = (e) => {
     const q = e.target.value;
     setQuery(q);
+
     if (!q) {
       setResults([]);
       return;
@@ -35,17 +36,22 @@ export default function Header() {
 
     fetch(`http://localhost:8080/api/main/search?query=${encodeURIComponent(q)}`)
       .then(res =>
-        res.ok ? res.json() : Promise.reject(`HTTP ${res.status}`)
+        res.ok
+          ? res.json()
+          : Promise.reject(new Error(`HTTP ${res.status}`))
       )
-      .then(data => setResults(Array.isArray(data) ? data : []))
+      .then(data => {
+        // Expecting an array of full Product objects (with reviewIds, etc.)
+        setResults(Array.isArray(data) ? data : []);
+      })
       .catch(() => setResults([]));
   };
 
-  // on selecting one result
-  const handleSelect = (p) => {
+  // When you click a result, navigate and pass the full product in state
+  const handleSelect = (product) => {
     setQuery("");
     setResults([]);
-    navigate(`/product/${p.productId}`, { state: p });
+    navigate(`/product/${product.productId}`, { state: product });
   };
 
   return (
@@ -75,7 +81,10 @@ export default function Header() {
       )}
 
       <div className="icons">
-        <FaHeart className="icon" />
+        <FaHeart
+          className="icon clickable-icon"
+          onClick={() => navigate("/wishlist")}
+        />
         <FaShoppingCart
           className="icon clickable-icon"
           onClick={() => navigate("/cart")}

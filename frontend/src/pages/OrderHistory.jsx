@@ -1,24 +1,20 @@
-// src/pages/OrderHistory.jsx
 import React, { useEffect, useState } from "react";
-import { useNavigate }                from "react-router-dom";
-import Header                         from "../components/Header";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import ProductCard from "../components/ProductCard";
 import "./OrderHistory.css";
 
 export default function OrderHistory() {
-  const navigate    = useNavigate();
-  const token       = localStorage.getItem("authToken");
-  const userId      = localStorage.getItem("userId");
-  const userName    = localStorage.getItem("userName")    || ""; 
-  const userSurname = localStorage.getItem("userSurname") || "";
+  const navigate = useNavigate();
+  const token = localStorage.getItem("authToken");
+  const userId = localStorage.getItem("userId");
 
-  const [activeOrders, setActiveOrders]     = useState([]);
+  const [activeOrders, setActiveOrders] = useState([]);
   const [previousOrders, setPreviousOrders] = useState([]);
-  const [error, setError]                   = useState("");
+  const [recommended, setRecommended] = useState([]);
+  const [error, setError] = useState("");
+  const [productNames, setProductNames] = useState({});
 
-  // our little in‐memory cache of productId→productName
-  const [productNames, setProductNames]     = useState({});
-
-  // Redirect if no token/userId, otherwise load orders
   useEffect(() => {
     if (!token || !userId) {
       navigate("/login");
@@ -26,117 +22,120 @@ export default function OrderHistory() {
     }
     const headers = { Authorization: `Bearer ${token}` };
 
-    // helper to load orders
-    const load = (url, setter, errMsg) =>
+    const load = (url, setter, msg) =>
       fetch(url, { headers })
-        .then(res => {
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          return res.json();
-        })
+        .then(r => r.ok ? r.json() : Promise.reject())
         .then(setter)
-        .catch(() => setError(e => e ? e + " " + errMsg : errMsg));
+        .catch(() => setError(e => e ? e + " " + msg : msg));
 
-    load(
-      `http://localhost:8080/api/order/viewActiveOrders/${userId}`,
-      setActiveOrders,
-      "Could not load active orders."
-    );
-    load(
-      `http://localhost:8080/api/order/viewPreviousOrders/${userId}`,
-      setPreviousOrders,
-      "Could not load previous orders."
-    );
+    load(`http://localhost:8080/api/order/viewActiveOrders/${userId}`, setActiveOrders, "Could not load active orders.");
+    load(`http://localhost:8080/api/order/viewPreviousOrders/${userId}`, setPreviousOrders, "Could not load previous orders.");
+
+    fetch(`http://localhost:8080/api/order/previous-products/${userId}`, { headers })
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(setRecommended)
+      .catch(() => setError(e => e ? e + " Could not load recommended products." : "Could not load recommended products."));
   }, [token, userId, navigate]);
 
-  // Whenever either set of orders changes, fetch any productIds we don't yet know
   useEffect(() => {
     const allIds = new Set();
-    activeOrders.forEach(o => o.productIds.forEach(id => allIds.add(id)));
-    previousOrders.forEach(o => o.productIds.forEach(id => allIds.add(id)));
+    [...activeOrders, ...previousOrders].forEach(o => o.productIds.forEach(pid => allIds.add(pid)));
 
     allIds.forEach(pid => {
       if (!productNames[pid]) {
         fetch(`http://localhost:8080/api/main/products/${pid}`)
-          .then(res => res.ok ? res.json() : Promise.reject())
-          .then(data => {
-            setProductNames(prev => ({ ...prev, [pid]: data.productName }));
+          .then(r => r.ok ? r.json() : Promise.reject())
+          .then(prod => {
+            setProductNames(m => ({ ...m, [pid]: prod.productName }));
           })
-          .catch(() => {
-            // silently fail, we'll just show the raw ID
-          });
+          .catch(() => {/* silent */});
       }
     });
   }, [activeOrders, previousOrders, productNames]);
 
-  if (!token) return null; // waiting on redirect
+  if (!token) return null;
 
   const handleLogout = async () => {
     try {
       await fetch("http://localhost:8080/api/auth/logout", {
-        method:  "POST",
+        method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
-    } catch (e) {
-      console.warn("Logout failed:", e);
-    }
+    } catch {}
     localStorage.clear();
     navigate("/login");
   };
 
   return (
-    <div className="order-history-page">
+    <>
       <Header />
+      <div className="order-history-page">
 
-      <div className="profile-bar">
-        <span>Hello, {userName} {userSurname}</span>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
+        <div className="orders-content">
+          {/* Active Orders */}
+          <div className="section-wrapper">
+            <h3>Active Orders</h3>
+            {activeOrders.length === 0
+              ? <p className="no-orders-message">No active orders.</p>
+              : activeOrders.map(order => (
+                  <div key={order.orderId} className="order-card">
+                    <p><strong>Order #{order.orderId}</strong></p>
+                    <p>Status: {order.status}</p>
+                    <ul>
+                      {order.productIds.map((pid, i) => (
+                        <li key={pid}>
+                          {productNames[pid] || pid} × {order.quantities[i] || 1}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))
+            }
+          </div>
 
-      <div className="orders-content">
-        {error && <p className="error">{error}</p>}
+          {/* Previous Orders */}
+          <div className="section-wrapper">
+            <h3>Previous Orders</h3>
+            {previousOrders.length === 0
+              ? <p className="no-orders-message">No past orders.</p>
+              : previousOrders.map(order => (
+                  <div key={order.orderId} className="order-card">
+                    <p><strong>Order #{order.orderId}</strong></p>
+                    <p>Status: {order.status}</p>
+                    <ul>
+                      {order.productIds.map((pid, i) => (
+                        <li key={pid}>
+                          {productNames[pid] || pid} × {order.quantities[i] || 1}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))
+            }
+          </div>
 
-        <section>
-          <h3>Active Orders</h3>
-          {activeOrders.length === 0 ? (
-            <p>No active orders.</p>
-          ) : (
-            activeOrders.map(order => (
-              <div key={order.orderId} className="order-card">
-                <p><strong>Order #{order.orderId}</strong></p>
-                <p>Status: {order.status}</p>
-                <ul>
-                  {order.productIds.map((pid, idx) => (
-                    <li key={pid}>
-                      {productNames[pid] || pid} × {order.quantities[idx] || 1}
-                    </li>
+          {/* Recommended Products */}
+          <div className="section-wrapper">
+            <h3>Previously Purchased Products</h3>
+            {recommended.length === 0
+              ? <p className="no-orders-message">No products to recommend.</p>
+              : <div className="products-grid">
+                  {recommended.map(prod => (
+                    <ProductCard key={prod.productId} product={prod} />
                   ))}
-                </ul>
-              </div>
-            ))
-          )}
-        </section>
+                </div>
+            }
+          </div>
+        </div>
 
-        <section style={{ marginTop: "2rem" }}>
-          <h3>Previous Orders</h3>
-          {previousOrders.length === 0 ? (
-            <p>No past orders.</p>
-          ) : (
-            previousOrders.map(order => (
-              <div key={order.orderId} className="order-card">
-                <p><strong>Order #{order.orderId}</strong></p>
-                <p>Status: {order.status}</p>
-                <ul>
-                  {order.productIds.map((pid, idx) => (
-                    <li key={pid}>
-                      {productNames[pid] || pid} × {order.quantities[idx] || 1}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          )}
-        </section>
+        {/* Logout Button at Bottom Right */}
+        <div className="logout-button-container">
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+
       </div>
-    </div>
+    </>
   );
 }
