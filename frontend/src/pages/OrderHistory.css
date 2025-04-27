@@ -105,4 +105,17 @@
   background: #c53030;
 }
 
+.orders-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem; /* space between the two tables */
+  margin-bottom: 2rem;
+}
+
+.orders-grid .section-wrapper {
+  flex: 1 1 45%; /* make each table ~45% width */
+  min-width: 300px; /* if screen is very small, stack them */
+}
+
+
 

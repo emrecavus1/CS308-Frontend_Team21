@@ -1,3 +1,4 @@
+// src/pages/OrderHistory.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
@@ -48,7 +49,7 @@ export default function OrderHistory() {
           .then(prod => {
             setProductNames(m => ({ ...m, [pid]: prod.productName }));
           })
-          .catch(() => {/* silent */});
+          .catch(() => {/* silent failure */});
       }
     });
   }, [activeOrders, previousOrders, productNames]);
@@ -72,46 +73,49 @@ export default function OrderHistory() {
       <div className="order-history-page">
 
         <div className="orders-content">
-          {/* Active Orders */}
-          <div className="section-wrapper">
-            <h3>Active Orders</h3>
-            {activeOrders.length === 0
-              ? <p className="no-orders-message">No active orders.</p>
-              : activeOrders.map(order => (
-                  <div key={order.orderId} className="order-card">
-                    <p><strong>Order #{order.orderId}</strong></p>
-                    <p>Status: {order.status}</p>
-                    <ul>
-                      {order.productIds.map((pid, i) => (
-                        <li key={pid}>
-                          {productNames[pid] || pid} × {order.quantities[i] || 1}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))
-            }
-          </div>
+          {/* Grid for Active + Previous Orders */}
+          <div className="orders-grid">
+            {/* Active Orders */}
+            <div className="section-wrapper">
+              <h3>Active Orders</h3>
+              {activeOrders.length === 0
+                ? <p className="no-orders-message">No active orders.</p>
+                : activeOrders.map(order => (
+                    <div key={order.orderId} className="order-card">
+                      <p><strong>Order #{order.orderId}</strong></p>
+                      <p>Status: {order.status}</p>
+                      <ul>
+                        {order.productIds.map((pid, i) => (
+                          <li key={pid}>
+                            {productNames[pid] || pid} × {order.quantities[i] || 1}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
+              }
+            </div>
 
-          {/* Previous Orders */}
-          <div className="section-wrapper">
-            <h3>Previous Orders</h3>
-            {previousOrders.length === 0
-              ? <p className="no-orders-message">No past orders.</p>
-              : previousOrders.map(order => (
-                  <div key={order.orderId} className="order-card">
-                    <p><strong>Order #{order.orderId}</strong></p>
-                    <p>Status: {order.status}</p>
-                    <ul>
-                      {order.productIds.map((pid, i) => (
-                        <li key={pid}>
-                          {productNames[pid] || pid} × {order.quantities[i] || 1}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))
-            }
+            {/* Previous Orders */}
+            <div className="section-wrapper">
+              <h3>Previous Orders</h3>
+              {previousOrders.length === 0
+                ? <p className="no-orders-message">No past orders.</p>
+                : previousOrders.map(order => (
+                    <div key={order.orderId} className="order-card">
+                      <p><strong>Order #{order.orderId}</strong></p>
+                      <p>Status: {order.status}</p>
+                      <ul>
+                        {order.productIds.map((pid, i) => (
+                          <li key={pid}>
+                            {productNames[pid] || pid} × {order.quantities[i] || 1}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
+              }
+            </div>
           </div>
 
           {/* Recommended Products */}

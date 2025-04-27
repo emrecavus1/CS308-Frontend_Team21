@@ -1,5 +1,4 @@
 .category-page {
-  /* push everything (title + grid) down below the header */
   padding: 100px 20px 40px;
 }
 
@@ -10,24 +9,22 @@
   margin-bottom: 2rem;
 }
 
-/* src/pages/CategoryPage.css */
-
-/* …keep your other rules… */
-
+/* Products Grid */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  justify-items: center; /* centers each card in its cell */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* exactly 2 columns */
+  gap: 1.5rem;
+  justify-items: center; /* center each card */
+  max-width: 900px;      /* optional: control total width */
+  margin: 0 auto;        /* center the entire grid */
 }
 
-/* (optional) on very narrow screens, drop down to a single column */
+/* Mobile: 1 column if very narrow */
 @media (max-width: 600px) {
   .products-grid {
     grid-template-columns: 1fr;
   }
 }
-
 
 .center {
   text-align: center;
