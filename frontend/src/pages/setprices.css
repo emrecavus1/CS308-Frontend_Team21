@@ -1,0 +1,63 @@
+/* SET PRICES PAGE STYLING */
+
+.set-prices-container {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: #f9fbfd;
+    font-family: 'Work Sans', 'Noto Sans', sans-serif;
+  }
+  
+  .set-prices-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #0e141b;
+  }
+  
+  .set-prices-subtext {
+    font-size: 14px;
+    color: #4e7397;
+    margin-bottom: 1.5rem;
+  }
+  
+  .set-prices-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  /* Dropdown styling with custom arrow */
+  .set-prices-select {
+    width: 100%;
+    padding: 0.75rem;
+    padding-right: 2.5rem; /* Leave space for custom arrow */
+    border: 1px solid #e0e6ed;
+    border-radius: 10px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #0e141b;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='%234e7397' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%234e7397' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
+  
+  /* Responsive consideration */
+  @media screen and (max-width: 480px) {
+    .set-prices-container {
+      padding: 1.5rem;
+    }
+  
+    .set-prices-form {
+      max-width: 100%;
+    }
+  }
+  

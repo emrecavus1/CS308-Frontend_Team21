@@ -1,0 +1,89 @@
+/* src/components/Header.css */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-height);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+  color: #000;
+}
+
+/* logo */
+.site-header .logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #0e141b;
+  cursor: pointer;
+}
+
+/* search bar */
+.site-header .search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f1f3f5;
+  border-radius: 8px;
+  padding: 5px 12px;
+  width: 400px;
+  max-width: 500px;
+}
+.site-header .search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px;
+  width: 100%;
+  font-size: 1rem;
+  color: #000;
+}
+
+/* autocomplete dropdown (outside of header wrapper because it’s absolutely positioned) */
+.autocomplete-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  z-index: 1001;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.autocomplete-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.autocomplete-list li:hover {
+  background-color: #f1f3f5;
+}
+
+/* icons */
+.site-header .icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.site-header .icons .icon {
+  font-size: 1.4rem;
+  color: #0e141b;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.site-header .icons .clickable-icon:hover {
+  color: #197fe6;
+}
+
+.site-header + * {
+  margin-top: calc(80px + 16px);
+}

@@ -1,10 +1,24 @@
+/* src/App.css */
+
+/* 1) reset margins, no global padding or background on the <body> */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+/* 2) your centered app container — add 80px top padding for the fixed header,
+      then your normal 2rem on all sides */
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 80px 2rem 2rem; /* ← 80px for header + 2rem sides & bottom */
+  position: relative;
+  z-index: 0; /* make sure page content sits underneath the header */
 }
 
+/* 3) leave the rest of your existing App.css alone */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -19,12 +33,8 @@
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: no-preference) {

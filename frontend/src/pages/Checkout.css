@@ -1,0 +1,45 @@
+/* src/pages/Checkout.css */
+.checkout-page {
+    max-width: 400px;
+    margin: 100px auto 2rem; /* leave room for header */
+    padding: 2rem;
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    color: black;
+    
+  }
+  .checkout-form label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .checkout-form input {
+    width: 100%;
+    padding: .5rem;
+    margin-top: .25rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: black;
+  }
+  .checkout-form button {
+    width: 100%;
+    padding: .75rem;
+    background: #197fe6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  .error {
+    color: #c00;
+    text-align: center;
+  }
+  .success {
+    color: #080;
+    text-align: center;
+    font-weight: bold;
+  }
+  

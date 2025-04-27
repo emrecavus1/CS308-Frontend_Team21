@@ -4,20 +4,26 @@ import axios from "axios";
 import "./Login.css";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [error, setError]       = useState("");
+  const navigate                = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/login", {
-        email,
-        password,
-      });
-      console.log("Login successful", response.data);
-      navigate("/"); // Redirect to home after login
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/login",
+        { email, password }
+      );
+// in Login.jsx, after response:
+      const { token, userId, name, surname } = response.data;
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("userName", name);
+      localStorage.setItem("userSurname", surname);
+
+      navigate("/"); 
     } catch (err) {
       setError("Invalid email or password");
     }
@@ -54,9 +60,19 @@ const Login = () => {
           <p className="forgot-password">Forgot your password?</p>
         </div>
         {error && <p className="error">{error}</p>}
-        <button type="submit" className="login-button">Sign In</button>
+        <button type="submit" className="login-button">
+          Sign In
+        </button>
       </form>
-      <p className="signup">New to Shipshak? <span onClick={() => navigate("/register")} className="signup-link">Sign up now</span></p>
+      <p className="signup">
+        New to Shipshak?{" "}
+        <span
+          onClick={() => navigate("/register")}
+          className="signup-link"
+        >
+          Sign up now
+        </span>
+      </p>
     </div>
   );
 };

@@ -1,103 +1,224 @@
-.landing-container {
-  font-family: "Work Sans", sans-serif;
-  background-color: #f8f9fa;
-  min-height: 100vh;
-  padding: 20px;
+
+/* src/pages/Landing.css */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: 'Work Sans', sans-serif;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
+/* ensure page sits below sticky header */
+.landing-page {
+  max-width: none;        /* ignore the 1280px cap on #root */
+  margin: 0;              /* remove #root’s auto horizontal centering */
+  text-align: left;       /* undo the `text-align: center` from #root */
+  padding-top: 100px;      /* keep your header-push */
 }
+
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  color: #0e141b;
+  cursor: pointer;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
-  background: #e7edf3;
-  padding: 10px;
-  border-radius: 20px;
-  width: 250px;
-}
 
-.search-bar input {
-  border: none;
-  background: transparent;
-  outline: none;
-  width: 100%;
-  padding-left: 10px;
-}
-
-.search-icon {
-  color: #4e7397;
-}
-
-.icons {
-  display: flex;
+  align-items: center;
   gap: 20px;
 }
-
 .icon {
-  font-size: 20px;
-  color: #0e141b;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: color 0.3s ease;
+}
+.clickable-icon:hover {
+  color: #197fe6;
 }
 
-.icon:hover {
-  color: #1980e6;
-}
-
-/* Hero Section */
-.hero {
-  background: url("https://cdn.usegalileo.ai/sdxl10/bdab3910-d8bf-4895-b821-8c5497784515.png") center/cover no-repeat;
-  height: 300px;
+/* â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+   Hero Section
+â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
+.hero-section {
+  background-image: url("https://cdn.usegalileo.ai/sdxl10/bdab3910-d8bf-4895-b821-8c5497784515.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 80vh;
   display: flex;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.hero-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
   padding: 40px;
-  color: white;
-}
-
-.hero-content h1 {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.hero-content p {
-  font-size: 1rem;
-}
-
-/* Categories */
-.categories {
-  padding: 20px;
-}
-
-.category-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-}
-
-.category-item {
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
+  border-radius: 15px;
   text-align: center;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  color: white;
+  margin-top: 80px;
+}
+.hero-overlay h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+.hero-overlay p {
+  font-size: 1.2rem;
 }
 
-.category-item:hover {
-  transform: scale(1.05);
+.categories-section {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #f8f9fc;
+}
+.categories-section h2 {
+  font-size: 2.5rem;
+  color: #0e141b;
+  margin-bottom: 40px;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.category-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 160px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+.category-card .icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #197fe6;
+}
+.category-card .label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+   Sort Section 
+   (buttons always in flow, dropdown floats)
+â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€” */
+.sort-section {
+  position: relative;
+  margin: 30px 0;
+  text-align: center;
+  color:#0e141b
+}
+
+.sort-buttons {
+  display: inline-flex;
+  gap: 16px;
+}
+.sort-buttons button {
+  padding: 10px 20px;
+  background-color: #197fe6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.sort-buttons button:hover {
+  background-color: #145ca8;
+}
+
+.sorted-dropdown {
+  position: absolute;
+  top: 100%;               /* immediately below buttons */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  padding: 20px 30px;
+  z-index: 100;
+}
+.sorted-dropdown h2 {
+  margin: 0 0 12px;
+  text-align: center;
+  color: #0e141b;
+}
+.sorted-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sorted-dropdown li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+.sorted-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.sorted-product {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  padding: 16px 30px;
+  margin-bottom: 12px;
+  background: #f5f7fa;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.sorted-product:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  background-color: #eceff4;
+}
+
+.sorted-product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: 2px solid #d1d5db;
+}
+
+.sorted-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sorted-product-info strong {
+  font-size: 1.1rem;
+  color: #0e141b;
+}
+
+.sorted-product-info small {
+  font-size: 0.9rem;
+  color: #555;
 }
