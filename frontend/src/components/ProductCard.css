@@ -6,14 +6,24 @@
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
+  flex-direction: column; /* 🌟 eklendi: dikey sıralama */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* 🌟 üstten başlaması için */
   padding: 16px;
+  color: #000;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.product-image {
+  width: 100%;
+  height: 160px; /* 🌟 sabit yükseklik */
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 12px; /* 🌟 resim ile ürün adı arasına boşluk */
 }
 
 .product-info {
