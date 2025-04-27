@@ -1,3 +1,4 @@
+
 /* src/pages/Landing.css */
 
 /* Reset */
@@ -31,23 +32,7 @@ html, body {
 .search-bar {
   display: flex;
   align-items: center;
-  background-color: #f1f3f5;
-  padding: 8px 12px;
-  border-radius: 10px;
-  width: 400px;
-  max-width: 500px;
-}
-.search-bar input {
-  border: none;
-  background: none;
-  outline: none;
-  font-size: 1rem;
-  padding: 5px;
-  width: 100%;
-}
 
-.icons {
-  display: flex;
   align-items: center;
   gap: 20px;
 }
