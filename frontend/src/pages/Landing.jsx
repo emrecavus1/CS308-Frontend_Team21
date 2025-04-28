@@ -143,33 +143,20 @@ export default function Landing() {
           <div className="sorted-dropdown">
             <h2>Sorted by {capitalize(sortField)}</h2>
             <ul>
-                {sortedResults.map((p) => (
-                  <li
-                    key={p.productId}
-                    className="sorted-product"
-                    onClick={() => navigate(`/product/${p.productId}`, { state: p })}
-                  >
-                    <img
-                      src={`/assets/product-images/${p.productName.replace(/\s+/g, "_")}.jpg`}
-                      alt={p.productName}
-                      className="sorted-product-image"
-                      onError={(e) => { e.target.src = "/assets/product-images/placeholder.jpg"; }}
-                    />
-                    <div className="sorted-product-info">
-                      <strong>{p.productName}</strong>
-                      <small>
-                        {sortField === "price"
-                          ? `Price: $${p.price}`
-                          : `Rating: ${p.rating} ⭐`
-                        }
-                      </small>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {sortedResults.map(p => (
+                <li 
+                  key={p.productId}
+                  className="sorted-item"
+                  onClick={() => navigate(`/product/${p.productId}`, { state: p })}
+                >
+                  <strong>{p.productName}</strong> — {sortField === "price" ? (`$${p.price}`) : (<>{p.rating?.toFixed(2)}<span className="star-icon">★</span></>)}
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
     </div>
   );
 }
+

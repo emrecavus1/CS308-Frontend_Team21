@@ -62,6 +62,7 @@ export default function CategoryPage() {
   return (
     <>
       <Header />
+      <button className="back-button" onClick={() => navigate(-1)}>← Back </button>
 
       <div className="category-page">
         <h1 className="category-title">

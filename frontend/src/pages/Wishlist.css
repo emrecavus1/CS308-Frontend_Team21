@@ -1,0 +1,67 @@
+/* src/pages/Wishlist.css */
+.wishlist-page {
+    padding: 100px 20px 40px;
+  }
+  
+  .wishlist-title {
+    text-align: center;
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 2rem;
+  }
+  
+  /* Products Grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* exactly 2 columns */
+    gap: 1.5rem;
+    justify-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  /* Mobile: 1 column if narrow */
+  @media (max-width: 600px) {
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .center {
+    text-align: center;
+    color: #333; /* darker text */
+    margin-top: 2rem;
+    background-color: white; /* white background */
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: inline-block; /* so it doesn’t stretch full width */
+  }
+  
+  
+  .error {
+    color: #c00;
+  }
+
+  .wishlist-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .heart {
+    transition: color 0.3s ease;
+    color: white;
+    stroke: black;
+    stroke-width: 30;
+  }
+  
+  .heart.filled {
+    color: red;
+    stroke: black;
+    stroke-width: 30;
+  }
+  
+  
+  

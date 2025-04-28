@@ -35,3 +35,19 @@
 .error {
   color: #c00;
 }
+
+.back-btn {
+  margin-bottom: 1rem;
+  background: none;
+  border: none;
+  color: #197fe6;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: white;
+}
+
+
+.back-button:hover {
+  color: #ccc;
+}
+

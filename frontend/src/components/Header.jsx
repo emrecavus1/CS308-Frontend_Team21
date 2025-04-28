@@ -1,7 +1,7 @@
 // src/components/Header.jsx
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate }                      from "react-router-dom";
-import { FaHeart, FaShoppingCart, FaUser }  from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaHeart, FaShoppingCart, FaUser, FaHome } from "react-icons/fa"; // ⬅️ ADD FaHome
 import "./Header.css";
 
 export default function Header() {
@@ -10,9 +10,8 @@ export default function Header() {
 
   const [query, setQuery]     = useState("");
   const [results, setResults] = useState([]);
-  const token                = localStorage.getItem("authToken");
+  const token                 = localStorage.getItem("authToken");
 
-  // Close dropdown if you click outside
   useEffect(() => {
     const onClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -24,7 +23,6 @@ export default function Header() {
     return () => window.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  // Fire search on every keystroke
   const handleChange = (e) => {
     const q = e.target.value;
     setQuery(q);
@@ -41,13 +39,11 @@ export default function Header() {
           : Promise.reject(new Error(`HTTP ${res.status}`))
       )
       .then(data => {
-        // Expecting an array of full Product objects (with reviewIds, etc.)
         setResults(Array.isArray(data) ? data : []);
       })
       .catch(() => setResults([]));
   };
 
-  // When you click a result, navigate and pass the full product in state
   const handleSelect = (product) => {
     setQuery("");
     setResults([]);
@@ -81,6 +77,12 @@ export default function Header() {
       )}
 
       <div className="icons">
+        {/* 🏠 Home icon (New) */}
+        <FaHome
+          className="icon clickable-icon"
+          onClick={() => navigate("/")}
+        />
+
         <FaHeart
           className="icon clickable-icon"
           onClick={() => navigate("/wishlist")}
@@ -93,7 +95,7 @@ export default function Header() {
           className="icon clickable-icon"
           onClick={() => {
             if (token) navigate("/profile");
-            else      navigate("/login");
+            else navigate("/login");
           }}
         />
       </div>

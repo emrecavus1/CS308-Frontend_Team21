@@ -68,6 +68,7 @@ export default function Register() {
     } catch (err) {
       const data = err.response?.data;
       if (data?.errors) {
+        // Field-specific errors
         const fieldErrs = {};
         data.errors.forEach(msg => {
           const [label, detail] = msg.split(": ");
@@ -76,10 +77,15 @@ export default function Register() {
           if (key) fieldErrs[key] = detail;
         });
         setErrors(fieldErrs);
+      } else if (data?.message) {
+        // Global error
+        setGlobalError(data.message);
       } else {
-        setGlobalError("Registration failed: " + (data || err.message));
+        // General fallback
+        setGlobalError("Registration failed: " + (err.message || "Unknown error."));
       }
     }
+    
   };
 
   return (
