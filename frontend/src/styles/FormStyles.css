@@ -1,0 +1,16 @@
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .form-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
