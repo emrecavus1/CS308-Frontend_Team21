@@ -10,7 +10,7 @@ export default function WishlistPage() {
   return (
     <div className="wishlist-page">
       <Header />
-      <div style={{ height: "80px" }}></div>
+      <div style={{ height: "100px" }}></div>
 
       <h1 className="wishlist-title">Your Wishlist</h1>
 
