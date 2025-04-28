@@ -143,19 +143,13 @@ export default function Landing() {
           <div className="sorted-dropdown">
             <h2>Sorted by {capitalize(sortField)}</h2>
             <ul>
-              {sortedResults.map((p) => (
-                <li key={p.productId}>
-                  <strong>{p.productName}</strong>{" "}
-                  —{" "}
-                  {sortField === "price"
-                    ? `$${p.price}`
-                    : (
-                      <>
-                        <FaStar style={{ marginRight: "4px", verticalAlign: "middle", color: "orange" }} />
-                        {p.rating}
-                      </>
-                    )
-                  }
+              {sortedResults.map(p => (
+                <li 
+                  key={p.productId}
+                  className="sorted-item"
+                  onClick={() => navigate(`/product/${p.productId}`, { state: p })}
+                >
+                  <strong>{p.productName}</strong> — {sortField === "price" ? (`$${p.price}`) : (<>{p.rating?.toFixed(2)}<span className="star-icon">★</span></>)}
                 </li>
               ))}
             </ul>

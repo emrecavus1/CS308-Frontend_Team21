@@ -23,7 +23,7 @@ export default function ProductDetail() {
   const [commentsError, setCommentsError] = useState("");
 
   // 4) New-comment form
-  const [newRating, setNewRating] = useState(5);
+  const [newRating, setNewRating] = useState(0);
   const [newComment, setNewComment] = useState("");
   const [posting, setPosting] = useState(false);
 
@@ -36,11 +36,17 @@ export default function ProductDetail() {
   const name = localStorage.getItem("userName");
   const surname = localStorage.getItem("userSurname");
 
+  const [showStars, setShowStars] = useState(false);
+
   // ── Load the full product (unless already in router state) ──
   useEffect(() => {
     if (state?.productId === productId && state.productName) {
       setProduct(state);
       setLoading(false);
+      fetch(`/api/main/products/${productId}`)
+      .then(res => res.ok ? res.json() : Promise.reject())
+      .then(data => setProduct(data))
+      .catch(() => console.error("Could not reload product."));
       return;
     }
     setLoading(true);
@@ -87,7 +93,8 @@ export default function ProductDetail() {
 
   const inStock = product.stockCount > 0;
 
-  // ── Add to cart handler ──
+
+  // 🛒 Add to cart handler (Restore this!)
   const handleAddToCart = async () => {
     try {
       const res = await fetch(
@@ -95,52 +102,76 @@ export default function ProductDetail() {
         { method: "POST", credentials: "include" }
       );
       const json = await res.json();
-      setMessage(json.message || "Added to cart!");
-    } catch {
+      if (res.ok) {
+        setMessage(json.message || "Added to cart!");
+      } else {
+        setMessage(json.message || "Failed to add product to cart.");
+      }
+    } catch (err) {
       setMessage("Failed to add product to cart.");
     }
   };
+  
 
-  // ── Submit a new comment ──
+
+
+  // ── Add to cart handler ──
   const handlePostComment = async (e) => {
     e.preventDefault();
     if (!token || !userId) {
-      return alert("Please log in to post a comment.");
+      return alert("Please log in to post a review.");
     }
+    if (!newComment && !newRating) {
+      return alert("Please enter a rating or a comment."); // At least one must be provided
+    }
+  
     setPosting(true);
     try {
+      const reviewPayload = {
+        productId,
+        userId,
+      };
+      if (newRating > 0) {
+        reviewPayload.rating = newRating;
+      }
+      if (newComment.trim() !== "") {
+        reviewPayload.comment = newComment.trim();
+      }
+  
       await fetch("/api/main/postReview", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({
-          productId,
-          userId,
-          rating: newRating,
-          comment: newComment
-        })
+        body: JSON.stringify(reviewPayload)
       });
-
-      // After successful post, clear the form only (don't add directly to comments)
-      setNewRating(5);
+  
+      // Reset form
+      setNewRating(0); // Reset to 0 (no stars selected)
       setNewComment("");
-
-      // Re-fetch comments to get only approved ones
+  
+      // Refetch product info
+      fetch(`/api/main/products/${productId}`)
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(setProduct)
+        .catch(() => console.error("Could not reload product."));
+  
+      // Refetch verified comments
       setLoadComments(true);
       fetch(`/api/main/product/${productId}/verified`)
         .then(res => res.ok ? res.json() : Promise.reject())
         .then(setComments)
         .catch(() => setCommentsError("Could not load comments."))
         .finally(() => setLoadComments(false));
-
+  
     } catch {
-      alert("Failed to post comment.");
+      alert("Failed to post review.");
     } finally {
       setPosting(false);
     }
   };
+  
 
   return (
     <div className="product-detail-page">
@@ -157,7 +188,7 @@ export default function ProductDetail() {
           <dt>Category ID</dt><dd>{product.categoryId}</dd>
           <dt>Price</dt><dd>${product.price.toFixed(2)}</dd>
           <dt>Stock Count</dt><dd>{product.stockCount}</dd>
-          <dt>Rating</dt><dd>{product.rating}</dd>
+          <dt>Rating</dt><dd>{product.rating?.toFixed(2)}</dd>
           <dt>Product Info</dt><dd>{product.productInfo}</dd>
           <dt>Warranty Status</dt><dd>{product.warrantyStatus}</dd>
           <dt>Distributor Info</dt><dd>{product.distributorInfo}</dd>
@@ -197,32 +228,46 @@ export default function ProductDetail() {
                         ? `${name} ${surname}`
                         : (userNames[c.userId] || c.userId)}
                     </strong>
-                    <span className="comment-rating">({c.rating}/5)</span>
+              
+                    {/* 🛠️ SHOW RATING ONLY IF IT EXISTS */}
+                    {c.rating > 0 && (
+                      <span className="comment-rating">
+                        ({c.rating}/5)
+                      </span>
+                    )}
                   </p>
                   <p>{c.comment}</p>
                 </div>
-              ))
+              ))           
         }
 
         <form className="review-form" onSubmit={handlePostComment}>
-          <div className="star-rating">
-            {[1,2,3,4,5].map(i => (
-              <span
-                key={i}
-                className={i <= newRating ? "star filled" : "star"}
-                onClick={() => setNewRating(i)}
-              >
-                ★
-              </span>
-            ))}
-          </div>
+        <div
+          className="star-rating"
+          onClick={() => setShowStars(true)} // Clicking anywhere inside will reveal stars
+        >
+          {showStars && [1, 2, 3, 4, 5].map(i => (
+            <span
+              key={i}
+              className={i <= newRating ? "star filled" : "star"}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent also re-triggering parent click
+                setNewRating(i);
+              }}
+            >
+              ★
+            </span>
+          ))}
+          {!showStars && (
+            <span className="star-placeholder">Click to rate</span>
+          )}
+        </div>
 
           <textarea
             className="review-text"
             placeholder="Your comments…"
             value={newComment}
             onChange={e => setNewComment(e.target.value)}
-            required
           />
 
           <button
@@ -230,7 +275,7 @@ export default function ProductDetail() {
             type="submit"
             disabled={posting}
           >
-            {posting ? "Posting…" : "Post Comment"}
+            {posting ? "Posting…" : "Post Review"}
           </button>
         </form>
       </div>

@@ -56,3 +56,28 @@
   color: #666;
   cursor: default;
 }
+
+
+.wishlist-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.heart {
+  transition: color 0.3s ease;
+  color: white;
+  stroke: black;
+  stroke-width: 30;
+}
+
+.heart.filled {
+  color: red;
+  stroke: black;
+  stroke-width: 30;
+}
+
+
