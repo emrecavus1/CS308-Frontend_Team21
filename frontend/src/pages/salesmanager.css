@@ -1,225 +1,43 @@
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+/* src/pages/SalesManager.css */
+.sm-container {
+  padding: 100px 20px;
+  text-align: center;
+  background-color: #f4f6fa;
+  min-height: 100vh;
+}
 
-  body {
-    font-family: 'Work Sans', 'Noto Sans', sans-serif;
-    background-color: #f8f9fb;
-    color: #0e141b;
-  }
+.sm-title {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #333;
+}
 
-  /* CONTAINER */
-  .salesmanager-container {
-    padding: 2rem;
-    max-width: 960px;
-    margin: 0 auto;
-    background-color: #f8f9fb;
-  }
+.sm-button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
-  /* TITLE */
-  .salesmanager-title {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 2rem;
-  }
+.sm-button {
+  padding: 2.5rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: pre-line;
+  line-height: 1.4;
+}
 
-  /* INTRO SECTION */
-  .intro-section {
-    margin-bottom: 2.5rem;
-  }
-
-  .intro-heading {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 1.25rem;
-  }
-
-  .feature-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .feature-block {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    background-color: #fff;
-    padding: 1rem;
-    border-radius: 12px;
-    border: 1px solid #e7edf3;
-  }
-
-  .feature-icon {
-    background-color: #e7edf3;
-    color: #0e141b;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    flex-shrink: 0;
-  }
-
-  .feature-content h4 {
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  .feature-sub {
-    font-size: 14px;
-    color: #4e7397;
-    margin-top: 0.25rem;
-  }
-
-  /* SECTION HEADERS */
-  .section-title {
-    font-size: 16px;
-    font-weight: 700;
-    margin: 2rem 0 1rem;
-  }
-
-  /* PRODUCT */
-  .product-section {
-    margin-bottom: 2rem;
-  }
-
-  .product-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #ffffff;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-    border-radius: 12px;
-    border: 1px solid #e7edf3;
-  }
-
-  .product-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .product-image {
-    width: 56px;
-    height: 56px;
-    background-color: #ccc;
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
-  }
-
-  .product-name {
-    font-size: 15px;
-    font-weight: 500;
-  }
-
-  .product-sub {
-    font-size: 13px;
-    color: #4e7397;
-  }
-
-  /* PRICE BUTTON */
-  .price-btn {
-    background-color: #e7edf3;
-    color: #0e141b;
-    font-size: 13px;
-    font-weight: 500;
-    border: none;
-    border-radius: 12px;
-    padding: 0.4rem 1rem;
-    cursor: pointer;
-  }
-
-  /* INVOICES */
-  .invoice-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #ffffff;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-    border-radius: 12px;
-    border: 1px solid #e7edf3;
-  }
-
-  .invoice-month {
-    font-size: 15px;
-    font-weight: 500;
-  }
-
-  .invoice-range {
-    font-size: 13px;
-    color: #4e7397;
-  }
-
-  .download-btn {
-    background-color: #e7edf3;
-    color: #0e141b;
-    font-size: 13px;
-    font-weight: 500;
-    border: none;
-    border-radius: 12px;
-    padding: 0.4rem 1rem;
-    cursor: pointer;
-  }
-
-  /* CALCULATOR */
-  .loss-profit {
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid #e7edf3;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  .calculator-label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-
-  .calculator-input {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 14px;
-    border: none;
-    background-color: #e7edf3;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-  }
-
-  .calculator-btn {
-    width: 100%;
-    background-color: #e7edf3;
-    color: #0e141b;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 0.6rem;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-  }
-
-  /* RESPONSIVE */
-  @media screen and (max-width: 768px) {
-    .feature-list, .product-row, .invoice-row {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .product-info {
-      flex-direction: row;
-    }
-
-    .price-btn, .download-btn {
-      align-self: flex-end;
-    }
-  }
+.sm-button:hover {
+  background-color: #005fa3;
+}

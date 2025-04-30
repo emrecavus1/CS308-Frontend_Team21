@@ -1,7 +1,7 @@
 // src/components/Header.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaHeart, FaShoppingCart, FaUser, FaHome } from "react-icons/fa"; // ⬅️ ADD FaHome
+import { FaHeart, FaShoppingCart, FaUser, FaHome } from "react-icons/fa";
 import "./Header.css";
 
 export default function Header() {
@@ -11,6 +11,7 @@ export default function Header() {
   const [query, setQuery]     = useState("");
   const [results, setResults] = useState([]);
   const token                 = localStorage.getItem("authToken");
+  const role                  = localStorage.getItem("role");
 
   useEffect(() => {
     const onClickOutside = (e) => {
@@ -33,11 +34,7 @@ export default function Header() {
     }
 
     fetch(`http://localhost:8080/api/main/search?query=${encodeURIComponent(q)}`)
-      .then(res =>
-        res.ok
-          ? res.json()
-          : Promise.reject(new Error(`HTTP ${res.status}`))
-      )
+      .then(res => res.ok ? res.json() : Promise.reject())
       .then(data => {
         setResults(Array.isArray(data) ? data : []);
       })
@@ -50,9 +47,15 @@ export default function Header() {
     navigate(`/product/${product.productId}`, { state: product });
   };
 
+  const handleHomeClick = () => {
+    if (role === "Product Manager") navigate("/product-manager");
+    else if (role === "Sales Manager") navigate("/sales-manager");
+    else navigate("/");
+  };
+
   return (
     <header className="site-header" ref={containerRef}>
-      <h2 className="logo" onClick={() => navigate("/")}>
+      <h2 className="logo" onClick={handleHomeClick}>
         Shipshak.com
       </h2>
 
@@ -77,11 +80,7 @@ export default function Header() {
       )}
 
       <div className="icons">
-        {/* 🏠 Home icon (New) */}
-        <FaHome
-          className="icon clickable-icon"
-          onClick={() => navigate("/")}
-        />
+        <FaHome className="icon clickable-icon" onClick={handleHomeClick} />
 
         <FaHeart
           className="icon clickable-icon"
