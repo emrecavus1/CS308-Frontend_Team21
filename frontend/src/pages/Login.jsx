@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Header from "../components/Header";  // ⬅️ ADD THIS
+import Header from "../components/Header";
 import "./Login.css";
 
 const Login = () => {
@@ -13,19 +13,47 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/auth/login",
         { email, password }
       );
 
-      const { token, userId, name, surname } = response.data;
+      const {
+        token,
+        userId,
+        name,
+        surname,
+        role,
+        specificAddress,
+        email: userEmail
+      } = response.data;
+
       localStorage.setItem("authToken", token);
       localStorage.setItem("userId", userId);
       localStorage.setItem("userName", name);
       localStorage.setItem("userSurname", surname);
+      localStorage.setItem("role", role);
+      localStorage.setItem("specificAddress", specificAddress);
+      localStorage.setItem("email", userEmail);
 
-      navigate("/"); 
+      // Navigate by role
+      switch (role) {
+        case "Customer":
+          navigate("/");
+          break;
+        case "Product Manager":
+          navigate("/product-manager");
+          break;
+        case "Sales Manager":
+          navigate("/sales-manager");
+          break;
+        default:
+          navigate("/"); // fallback
+      }
+
     } catch (err) {
       setError("Invalid email or password");
     }
@@ -33,14 +61,12 @@ const Login = () => {
 
   return (
     <>
-      <Header /> {/* ⬅️ ADD THIS */}
-
+      <Header />
       <div className="login-container">
         <h2>Welcome Back</h2>
         <button className="social-login google">Sign in with Google</button>
         <button className="social-login apple">Sign in with Apple</button>
         <p className="or-text">or</p>
-
         <form onSubmit={handleLogin}>
           <label>Email</label>
           <input
@@ -60,27 +86,14 @@ const Login = () => {
             required
           />
 
-          <div className="remember-forgot">
-            <div>
-              <input type="checkbox" id="remember" />
-              <label htmlFor="remember">Remember me</label>
-            </div>
-            <p className="forgot-password">Forgot your password?</p>
-          </div>
-
           {error && <p className="error">{error}</p>}
 
-          <button type="submit" className="login-button">
-            Sign In
-          </button>
+          <button type="submit" className="login-button">Sign In</button>
         </form>
 
         <p className="signup">
           New to Shipshak?{" "}
-          <span
-            onClick={() => navigate("/register")}
-            className="signup-link"
-          >
+          <span onClick={() => navigate("/register")} className="signup-link">
             Sign up now
           </span>
         </p>

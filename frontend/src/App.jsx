@@ -9,15 +9,12 @@ import CategoryPage from './pages/CategoryPage';
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
 import OrderHistory from "./pages/OrderHistory";
-import Wishlist from "./pages/Wishlist";   // <-- Import the Wishlist page
+import Wishlist from "./pages/Wishlist"; 
+import ProductManager from "./pages/ProductManager";
+import SalesManager from "./pages/SalesManager";
 // at the very top of App.jsx
 
 
-// ✅ Example mock products (you can replace this with your actual data)
-const mockProducts = [
-  { id: 1, title: "Product A", price: 29.99, image: "link-to-image-a.jpg" },
-  { id: 2, title: "Product B", price: 49.99, image: "link-to-image-b.jpg" },
-];
 
 function App() {
   return (
@@ -33,6 +30,8 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<OrderHistory />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/product-manager" element={ <ProductManager />} />
+          <Route path="/sales-manager" element={ <SalesManager />} />
         </Routes>
       </Router>
     </CartProvider>
