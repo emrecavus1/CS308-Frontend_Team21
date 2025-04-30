@@ -1,0 +1,43 @@
+.pm-container {
+    padding: 100px 20px;
+    text-align: center;
+    background-color: #f4f6fa;
+    min-height: 100vh;
+  }
+  
+  .pm-title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #333;
+  }
+  
+  .pm-button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .pm-button {
+    padding: 2.5rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: pre-line;
+    line-height: 1.4;
+  }
+  
+  .pm-button:hover {
+    background-color: #005fa3;
+  }
+  

@@ -24,13 +24,15 @@ const turkishCities = [
   "KAYSERİ", "KIRKLARELİ", "KIRŞEHİR", "KOCAELİ", "KONYA", "KÜTAHYA", "MALATYA",
   "MANİSA", "KARAMAN", "KIRIKKALE", "BATMAN", "ŞIRNAK", "BARTIN", "ARDAHAN",
   "IĞDIR", "YALOVA", "KARABÜK", "KİLİS", "OSMANİYE", "DÜZCE"
- ];
- 
+];
 
 const roles = ["Customer", "Product Manager", "Sales Manager"];
 
 export default function Register() {
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+  const [globalError, setGlobalError] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -41,8 +43,6 @@ export default function Register() {
     specificAddress: "",
     phoneNumber: "",
   });
-  const [errors, setErrors]       = useState({});
-  const [globalError, setGlobalError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,14 +61,12 @@ export default function Register() {
         formData
       );
 
-      // on success, redirect to login
       if (res.status === 200 || res.status === 201) {
         navigate("/login");
       }
     } catch (err) {
       const data = err.response?.data;
       if (data?.errors) {
-        // Field-specific errors
         const fieldErrs = {};
         data.errors.forEach(msg => {
           const [label, detail] = msg.split(": ");
@@ -78,14 +76,11 @@ export default function Register() {
         });
         setErrors(fieldErrs);
       } else if (data?.message) {
-        // Global error
         setGlobalError(data.message);
       } else {
-        // General fallback
         setGlobalError("Registration failed: " + (err.message || "Unknown error."));
       }
     }
-    
   };
 
   return (
