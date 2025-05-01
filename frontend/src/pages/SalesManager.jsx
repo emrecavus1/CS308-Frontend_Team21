@@ -20,16 +20,16 @@ export default function SalesManager() {
           <button onClick={() => handleNavigation("/")} className="sm-button">
             🛍️ Do Shopping
           </button>
-          <button onClick={() => handleNavigation("/sm/update-price")} className="sm-button">
+          <button onClick={() => handleNavigation("/sales-manager/update-price")} className="sm-button">
             💰 Update Price
           </button>
-          <button onClick={() => handleNavigation("/sm/set-discount")} className="sm-button">
+          <button onClick={() => handleNavigation("/sales-manager/set-discount")} className="sm-button">
             🔻 Set Discount
           </button>
-          <button onClick={() => handleNavigation("/sm/view-invoices")} className="sm-button">
+          <button onClick={() => handleNavigation("/sales-manager/view-invoices")} className="sm-button">
             🧾 View Invoices
           </button>
-          <button onClick={() => handleNavigation("/sm/financial-report")} className="sm-button">
+          <button onClick={() => handleNavigation("/sales-manager/financial-report")} className="sm-button">
             📊 Financial Situation
           </button>
         </div>
