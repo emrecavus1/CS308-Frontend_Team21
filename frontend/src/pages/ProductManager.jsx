@@ -20,19 +20,19 @@ export default function ProductManager() {
           <button onClick={() => handleNavigation("/")} className="pm-button">
             🛍️ Do Shopping
           </button>
-          <button onClick={() => handleNavigation("/pm/add-product")} className="pm-button">
-            ➕ Add Product
+          <button onClick={() => handleNavigation("/product-manager/add-remove-product")} className="pm-button">
+            ➕🗑️ Add / Remove Product
           </button>
-          <button onClick={() => handleNavigation("/pm/add-category")} className="pm-button">
-            🗂️ Add Category
+          <button onClick={() => handleNavigation("/product-manager/add-remove-category")} className="pm-button">
+            🗂️🗑️ Add / Remove Category
           </button>
-          <button onClick={() => handleNavigation("/pm/update-stock")} className="pm-button">
+          <button onClick={() => handleNavigation("/product-manager/update-stock")} className="pm-button">
             📦 Update Stock
           </button>
-          <button onClick={() => handleNavigation("/pm/orders")} className="pm-button">
+          <button onClick={() => handleNavigation("/product-manager/orders")} className="pm-button">
             📑 Orders
           </button>
-          <button onClick={() => handleNavigation("/pm/comments")} className="pm-button">
+          <button onClick={() => handleNavigation("/product-manager/comments")} className="pm-button">
             💬 Comments
           </button>
         </div>
