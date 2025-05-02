@@ -18,6 +18,8 @@ import AddRemoveProduct from "./pages/AddRemoveProduct";
 import AddProduct from "./pages/AddProduct";
 import RemoveProduct from "./pages/RemoveProduct";
 import UpdatePrice from "./pages/UpdatePrice";
+import Profile from "./pages/Profile";
+import Comments from "./pages/Comments";
 // at the very top of App.jsx
 
 
@@ -34,7 +36,7 @@ function App() {
           <Route path="/category/:categoryId" element={<CategoryPage />} />
           <Route path="/product/:productId" element={<ProductDetail />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/profile" element={<OrderHistory />} />
+          <Route path="/order-history" element={<OrderHistory />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/product-manager" element={ <ProductManager />} />
           <Route path="/sales-manager" element={ <SalesManager />} />
@@ -43,7 +45,9 @@ function App() {
           <Route path="/product-manager/add-remove-product" element={<AddRemoveProduct />} />
           <Route path="/product-manager/add-product" element={<AddProduct />} /> {/* placeholder later */}
           <Route path="/product-manager/remove-product" element={<RemoveProduct />} /> {/* placeholder later */} 
-          <Route path="/sales-manager/update-price" element={<UpdatePrice />} />       
+          <Route path="/sales-manager/update-price" element={<UpdatePrice />} />  
+          <Route path="/profile" element={<Profile />} />  
+          <Route path="/product-manager/comments" element={ <Comments />} />  
         </Routes>
       </Router>
     </CartProvider>

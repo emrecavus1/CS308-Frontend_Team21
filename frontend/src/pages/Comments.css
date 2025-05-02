@@ -1,0 +1,58 @@
+.comments-container {
+    max-width: 900px;
+    margin: 100px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    font-family: 'Work Sans', sans-serif;
+  }
+  
+  .comments-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .comment-card {
+    background: #f4f6f8;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+  }
+  
+  .comment-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .approve-btn,
+  .decline-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .approve-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .decline-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .comments-error {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  

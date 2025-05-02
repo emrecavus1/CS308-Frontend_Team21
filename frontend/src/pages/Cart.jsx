@@ -49,8 +49,8 @@ export default function Cart() {
 
   return (
     <>
-      {/* ← Add your fixed header here */}
-
+      <Header /> {/* ← Fixed header added here */}
+  
       <div className={`cart-page ${isEmpty ? "empty" : "filled"}`}>
         {loading ? (
           <p className="center">Loading…</p>
@@ -99,4 +99,5 @@ export default function Cart() {
       </div>
     </>
   );
+  
 }
