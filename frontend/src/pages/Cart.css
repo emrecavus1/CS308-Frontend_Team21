@@ -7,7 +7,6 @@ body, html {
 }
 
 .cart-page {
-  background: url("https://cdn.usegalileo.ai/sdxl10/ed217804-d863-458e-bc2d-def6800d7229.png") no-repeat center center fixed;
   background-size: cover;
   font-family: 'Work Sans', sans-serif;
   min-height: 100vh;
