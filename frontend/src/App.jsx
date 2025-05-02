@@ -14,6 +14,10 @@ import ProductManager from "./pages/ProductManager";
 import SalesManager from "./pages/SalesManager";
 import AddRemoveCategory from "./pages/AddRemoveCategory";
 import UpdateStock from "./pages/UpdateStock";
+import AddRemoveProduct from "./pages/AddRemoveProduct";
+import AddProduct from "./pages/AddProduct";
+import RemoveProduct from "./pages/RemoveProduct";
+import UpdatePrice from "./pages/UpdatePrice";
 // at the very top of App.jsx
 
 
@@ -36,6 +40,10 @@ function App() {
           <Route path="/sales-manager" element={ <SalesManager />} />
           <Route path="/product-manager/add-remove-category" element={ <AddRemoveCategory />} />
           <Route path="/product-manager/update-stock" element={ <UpdateStock />} />
+          <Route path="/product-manager/add-remove-product" element={<AddRemoveProduct />} />
+          <Route path="/product-manager/add-product" element={<AddProduct />} /> {/* placeholder later */}
+          <Route path="/product-manager/remove-product" element={<RemoveProduct />} /> {/* placeholder later */} 
+          <Route path="/sales-manager/update-price" element={<UpdatePrice />} />       
         </Routes>
       </Router>
     </CartProvider>

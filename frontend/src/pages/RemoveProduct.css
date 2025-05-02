@@ -1,0 +1,52 @@
+/* RemoveProduct.css */
+.rp-container {
+    padding: 100px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    font-family: 'Work Sans', sans-serif;
+    border-radius: 12px;
+    text-align: center;
+  }
+  
+  .rp-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+  
+  .rp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .rp-input {
+    padding: 1rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 100%;
+  }
+  
+  .rp-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .rp-button:hover {
+    background-color: #c82333;
+  }
+  
+  .rp-message {
+    margin-top: 1rem;
+    color: red;
+    font-weight: bold;
+  }

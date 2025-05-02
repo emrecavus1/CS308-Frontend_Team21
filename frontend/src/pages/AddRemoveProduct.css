@@ -1,0 +1,49 @@
+/* src/pages/AddRemoveProduct.css */
+
+.arp-container {
+    background-color: white;
+    padding: 100px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .arp-title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #333;
+  }
+  
+  .arp-button-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .arp-button {
+    padding: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .arp-button:hover {
+    background-color: darkgreen;
+  }
+  
+  .arp-button.danger {
+    background-color: #cc4444;
+  }
+  
+  .arp-button.danger:hover {
+    background-color: #a83030;
+  }
+  
