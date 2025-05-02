@@ -13,6 +13,7 @@ import Wishlist from "./pages/Wishlist";
 import ProductManager from "./pages/ProductManager";
 import SalesManager from "./pages/SalesManager";
 import AddRemoveCategory from "./pages/AddRemoveCategory";
+import UpdateStock from "./pages/UpdateStock";
 // at the very top of App.jsx
 
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/product-manager" element={ <ProductManager />} />
           <Route path="/sales-manager" element={ <SalesManager />} />
           <Route path="/product-manager/add-remove-category" element={ <AddRemoveCategory />} />
+          <Route path="/product-manager/update-stock" element={ <UpdateStock />} />
         </Routes>
       </Router>
     </CartProvider>
