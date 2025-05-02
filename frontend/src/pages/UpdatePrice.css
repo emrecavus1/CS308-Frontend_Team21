@@ -1,0 +1,59 @@
+/* src/pages/UpdatePrice.css */
+
+.up-container {
+    background-color: white;
+    padding: 100px 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Work Sans', sans-serif;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .up-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #333;
+  }
+  
+  .up-message {
+    text-align: center;
+    color: green;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .up-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .up-input {
+    width: 100%;
+    padding: 1.1rem 1.2rem;
+    font-size: 1.1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  
+  .up-button {
+    padding: 0.9rem 1.6rem;
+    background-color: #0077cc;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: background 0.2s ease;
+  }
+  
+  .up-button:hover {
+    background-color: #005fa3;
+  }
+  

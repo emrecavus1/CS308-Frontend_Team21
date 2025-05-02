@@ -1,0 +1,57 @@
+.ap-container {
+    padding: 100px 20px;
+    width: 80vw;                   /* Take up most of the viewport width */
+    min-width: 700px;              /* Prevent it from getting too narrow */
+    background-color: white;
+    font-family: 'Work Sans', sans-serif;
+    border-radius: 12px;
+    margin: 50px auto;
+    text-align: center;
+  }
+  
+  
+  .ap-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+  
+  .ap-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+  }
+  
+  .ap-input, .ap-select {
+    padding: 1rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 100%;                  /* Expand input width */
+    box-sizing: border-box;
+  }
+  
+  .ap-button {
+    background-color: #28a745;
+    color: white;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+  }
+  
+  .ap-button:hover {
+    background-color: #218838;
+  }
+  
+  .ap-message {
+    margin-top: 1rem;
+    color: green;
+    font-weight: bold;
+  }
+  

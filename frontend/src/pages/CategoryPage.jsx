@@ -32,7 +32,7 @@ export default function CategoryPage() {
     setLoading(true);
     setError("");
     axios
-      .get(`http://localhost:8080/api/main/category/${categoryId}/getProductsByCategory`)
+      .get(`http://localhost:8080/api/main/category/${categoryId}/showProductsByCategory`)
       .then(res => {
         // your backend should already be returning full product objects
         const raw = Array.isArray(res.data)
