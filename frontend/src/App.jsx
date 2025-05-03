@@ -20,6 +20,7 @@ import RemoveProduct from "./pages/RemoveProduct";
 import UpdatePrice from "./pages/UpdatePrice";
 import Profile from "./pages/Profile";
 import Comments from "./pages/Comments";
+import Orders from "./pages/Orders";
 // at the very top of App.jsx
 
 
@@ -47,7 +48,8 @@ function App() {
           <Route path="/product-manager/remove-product" element={<RemoveProduct />} /> {/* placeholder later */} 
           <Route path="/sales-manager/update-price" element={<UpdatePrice />} />  
           <Route path="/profile" element={<Profile />} />  
-          <Route path="/product-manager/comments" element={ <Comments />} />  
+          <Route path="/product-manager/comments" element={ <Comments />} /> 
+          <Route path="/product-manager/orders" element = { <Orders />} />
         </Routes>
       </Router>
     </CartProvider>
