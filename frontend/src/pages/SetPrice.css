@@ -1,0 +1,52 @@
+/* src/pages/SetPrice.css */
+.set-price-page {
+    padding: 30px;
+    text-align: center;
+    background: white;
+  }
+  
+  .set-price-page h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+  
+  .price-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%;
+  }
+  
+  .price-table th,
+  .price-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .price-table th {
+    background-color: #f4f4f4;
+  }
+  
+  input[type="number"] {
+    padding: 6px 10px;
+    width: 100px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .status-message {
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: green;
+  }
+  
