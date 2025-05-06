@@ -56,4 +56,11 @@
   .up-button:hover {
     background-color: #005fa3;
   }
+
+  .up-current-price {
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  
   

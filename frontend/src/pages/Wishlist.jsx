@@ -8,6 +8,8 @@ export default function Wishlist() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading]   = useState(true);
   const [error, setError]       = useState("");
+  const [message, setMessage] = useState("");
+
 
   const userId = localStorage.getItem("userId");
 
@@ -44,11 +46,32 @@ export default function Wishlist() {
     }
   };
 
+  const handleAddToCart = async (productId) => {
+    try {
+      const res = await fetch(`/api/main/cart/add?productId=${productId}`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const json = await res.json();
+      if (res.ok) {
+        setMessage(json.message || "✅ Added to cart!");
+      } else {
+        setMessage(json.message || "❌ Failed to add to cart.");
+      }
+    } catch (err) {
+      setMessage("❌ Failed to add to cart.");
+      console.error("Add to cart error:", err);
+    }
+  };
+  
+  
+
   return (
     <div className="wishlist-page">
       <Header />
 
       <h1 className="wishlist-title">Your Wishlist</h1>
+      {message && <p className="status-message">{message}</p>}
 
       {loading ? (
         <p className="center">Loading…</p>
@@ -76,11 +99,13 @@ export default function Wishlist() {
                 </p>
 
                 <button
-                  className={p.stockCount > 0 ? "add-btn" : "add-btn disabled"}
-                  disabled={p.stockCount <= 0}
-                >
-                  {p.stockCount > 0 ? "Add to Cart" : "Out of Stock"}
-                </button>
+                className={p.stockCount > 0 ? "add-btn" : "add-btn disabled"}
+                disabled={p.stockCount <= 0}
+                onClick={() => handleAddToCart(p.productId)}  // ✅ Attach event
+              >
+                {p.stockCount > 0 ? "Add to Cart" : "Out of Stock"}
+              </button>
+
               </div>
             </div>
           ))}

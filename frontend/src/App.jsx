@@ -21,6 +21,8 @@ import UpdatePrice from "./pages/UpdatePrice";
 import Profile from "./pages/Profile";
 import Comments from "./pages/Comments";
 import Orders from "./pages/Orders";
+import SetPrice from "./pages/SetPrice";
+import SetDiscount from "./pages/SetDiscount";
 // at the very top of App.jsx
 
 
@@ -50,6 +52,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />  
           <Route path="/product-manager/comments" element={ <Comments />} /> 
           <Route path="/product-manager/orders" element = { <Orders />} />
+          <Route path="/sales-manager/set-price" element = { <SetPrice />} />
+          <Route path="/sales-manager/set-discount" element = { <SetDiscount />} />
         </Routes>
       </Router>
     </CartProvider>

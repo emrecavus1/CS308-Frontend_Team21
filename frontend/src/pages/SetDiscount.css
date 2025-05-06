@@ -1,0 +1,58 @@
+.discount-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+  }
+  
+  .discount-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .discount-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 320px;
+    text-align: center;
+  }
+  
+  .discount-input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .discount-button {
+    padding: 10px;
+    font-size: 1.1rem;
+    background-color: #0077ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .discount-message {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .discount-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    margin-top: 8px;
+  }
+
+  .up-current-price {
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  

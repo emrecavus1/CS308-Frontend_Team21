@@ -11,6 +11,7 @@ export default function UpdatePrice() {
   const [selectedProductId, setSelectedProductId] = useState("");
   const [newPrice, setNewPrice] = useState("");
   const [message, setMessage] = useState("");
+  const [currentPrice, setCurrentPrice] = useState(null);
 
   useEffect(() => {
     axios.get("http://localhost:8080/api/main/getCategories")
@@ -18,6 +19,7 @@ export default function UpdatePrice() {
       .catch(() => setMessage("Failed to load categories"));
   }, []);
 
+  
   useEffect(() => {
     if (selectedCategory) {
       axios.get(`http://localhost:8080/api/main/category/${selectedCategory}/getProductsByCategory`)
@@ -25,6 +27,17 @@ export default function UpdatePrice() {
         .catch(() => setProducts([]));
     }
   }, [selectedCategory]);
+  
+  useEffect(() => {
+    if (selectedProductId) {
+      axios.get(`http://localhost:8080/api/main/products/${selectedProductId}`)
+        .then(res => setCurrentPrice(res.data.price))
+        .catch(() => setCurrentPrice(null));
+    } else {
+      setCurrentPrice(null);
+    }
+  }, [selectedProductId]);
+  
 
   const handleUpdate = async () => {
     if (!selectedProductId || newPrice === "") return;
@@ -58,6 +71,8 @@ export default function UpdatePrice() {
               <option key={p.productId} value={p.productId}>{p.productName}</option>
             ))}
           </select>
+
+          {currentPrice !== null && (<p className="up-current-price">Current Price: ${currentPrice.toFixed(2)}</p>)}
 
           <input
             type="number"

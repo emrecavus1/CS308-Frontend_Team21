@@ -21,7 +21,11 @@ export default function SalesManager() {
             🛍️ Do Shopping
           </button>
           <button onClick={() => handleNavigation("/sales-manager/update-price")} className="sm-button">
-            💰 Update Price
+             🛠️ Update Price
+          </button>
+
+          <button onClick={() => handleNavigation("/sales-manager/set-price")} className="sm-button">
+            💰 Set Price
           </button>
           <button onClick={() => handleNavigation("/sales-manager/set-discount")} className="sm-button">
             🔻 Set Discount
