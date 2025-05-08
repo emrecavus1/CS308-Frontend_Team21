@@ -1,0 +1,55 @@
+.refund-container {
+    background: white;
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .refund-message {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: #444;
+    text-align: center;
+  }
+  
+  .refund-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .refund-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    background: #fff;
+  }
+  
+  .refund-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+  
+  .refund-buttons button {
+    flex: 1;
+    padding: 8px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .approve {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .reject {
+    background-color: #dc3545;
+    color: white;
+  }
+  

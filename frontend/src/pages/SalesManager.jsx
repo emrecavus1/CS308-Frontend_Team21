@@ -36,6 +36,10 @@ export default function SalesManager() {
           <button onClick={() => handleNavigation("/sales-manager/financial-report")} className="sm-button">
             📊 Financial Situation
           </button>
+
+          <button onClick={() => handleNavigation("/sales-manager/refund-requests")} className="sm-button">
+            💸 Refund Requests
+          </button>
         </div>
       </div>
     </>

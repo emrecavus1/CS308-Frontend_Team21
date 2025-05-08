@@ -24,6 +24,7 @@ import Orders from "./pages/Orders";
 import SetPrice from "./pages/SetPrice";
 import SetDiscount from "./pages/SetDiscount";
 import RequestRefund from "./pages/RequestRefund";
+import Refunds from "./pages/Refunds"
 // at the very top of App.jsx
 
 
@@ -56,6 +57,7 @@ function App() {
           <Route path="/product-manager/orders" element = { <Orders />} />
           <Route path="/sales-manager/set-price" element = { <SetPrice />} />
           <Route path="/sales-manager/set-discount" element = { <SetDiscount />} />
+          <Route path="/sales-manager/refund-requests" element = { <Refunds />} />
         </Routes>
       </Router>
     </CartProvider>

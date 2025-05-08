@@ -20,6 +20,15 @@ export default function OrderHistory() {
 
 
  useEffect(() => {
+  // Scroll the page container into view on mount
+  const container = document.querySelector(".order-history-page");
+  if (container) {
+    container.scrollIntoView({ behavior: "auto", block: "start" });
+  }
+}, []);
+
+
+ useEffect(() => {
    if (!token || !userId) {
      navigate("/login");
      return;
@@ -180,17 +189,14 @@ export default function OrderHistory() {
 
        {/* Logout Button at Bottom Right */}
        <div className="logout-button-container">
-          <button
-            className="refund-button"
-            onClick={() => navigate("/refunds")}
-          >
+          <button className="refund-button" onClick={() => navigate("/refunds")}>
             Request Refunds
           </button>
-
           <button className="logout-button" onClick={handleLogout}>
             Logout
           </button>
         </div>
+
 
 
      </div>
