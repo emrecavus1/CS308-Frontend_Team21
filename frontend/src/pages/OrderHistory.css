@@ -115,6 +115,25 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background 0.2s ease;
  }
+
+ .refund-button {
+  margin-bottom: 10px;
+  padding: 0.7rem 1.5rem;
+  background: #4299e1;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease;
+}
+
+.refund-button:hover {
+  background: #2b6cb0;
+}
+
  
  
  .logout-button:hover {
@@ -157,4 +176,52 @@
  .cancel-order-button:hover {
   background-color: #c53030;
  }
+
+
+ .logout-button-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* even spacing between buttons */
+}
+
+.logout-button,
+.refund-button {
+  width: 180px;              /* consistent width */
+  text-align: center;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease;
+}
+
+/* Specific colors */
+.logout-button {
+  background: #e53e3e;
+  color: white;
+  height: 80px;
+}
+
+.logout-button:hover {
+  background: #c53030;
+}
+
+.refund-button {
+  background: #4299e1;
+  color: white;
+  height: 80px;
+}
+
+.refund-button:hover {
+  background: #2b6cb0;
+}
+
  
