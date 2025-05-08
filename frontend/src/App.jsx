@@ -23,6 +23,7 @@ import Comments from "./pages/Comments";
 import Orders from "./pages/Orders";
 import SetPrice from "./pages/SetPrice";
 import SetDiscount from "./pages/SetDiscount";
+import RequestRefund from "./pages/RequestRefund";
 // at the very top of App.jsx
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/refunds" element={<RequestRefund />} />
           <Route path="/category/:categoryId" element={<CategoryPage />} />
           <Route path="/product/:productId" element={<ProductDetail />} />
           <Route path="/checkout" element={<Checkout />} />

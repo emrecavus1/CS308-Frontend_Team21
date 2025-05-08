@@ -180,10 +180,17 @@ export default function OrderHistory() {
 
        {/* Logout Button at Bottom Right */}
        <div className="logout-button-container">
-         <button className="logout-button" onClick={handleLogout}>
-           Logout
-         </button>
-       </div>
+          <button
+            className="refund-button"
+            onClick={() => navigate("/refunds")}
+          >
+            Request Refunds
+          </button>
+
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
 
 
      </div>

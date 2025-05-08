@@ -1,0 +1,84 @@
+.refund-page {
+    font-family: 'Work Sans', sans-serif;
+    color: #1a202c;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: white;
+  }
+  
+  .refund-page h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #2d3748;
+  }
+  
+  .refund-message {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2b6cb0;
+  }
+  
+  .no-orders-message {
+    font-style: italic;
+    color: #555;
+    background-color: #fefefe;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px dashed #ccc;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .refund-order-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .refund-order-card p {
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+  }
+  
+  .refund-order-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+  
+  .refund-order-card li {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .product-name {
+    font-weight: 600;
+    margin-right: 10px;
+    flex: 1;
+  }
+  
+  .refund-button {
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+  }
+  
+  .refund-button:hover {
+    background-color: #2b6cb0;
+  }
+  
