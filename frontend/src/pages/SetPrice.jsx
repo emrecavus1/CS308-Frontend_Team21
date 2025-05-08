@@ -28,18 +28,18 @@ export default function SetPricePage() {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/main/updatePrice/${productId}/${price}`,
+        `http://localhost:8080/api/main/setPrice/${productId}/${price}`,
         { method: "PUT" }
       );
       if (res.ok) {
-        setMessage("✅ Price updated successfully.");
+        setMessage("✅ Price set successfully.");
         setProducts((prev) => prev.filter((p) => p.productId !== productId));
       } else {
-        setMessage("❌ Failed to update price.");
+        setMessage("❌ Failed to set price.");
       }
     } catch (err) {
       console.error("Update error:", err);
-      setMessage("❌ Error occurred while updating price.");
+      setMessage("❌ Error occurred while setting price.");
     }
   };
 
@@ -69,12 +69,18 @@ export default function SetPricePage() {
                 <td>
                   <input
                     type="number"
+                    step="0.01"
                     value={newPrices[p.productId] || ""}
-                    onChange={(e) => handlePriceChange(p.productId, e.target.value)}
+                    onChange={(e) =>
+                      handlePriceChange(p.productId, e.target.value)
+                    }
+                    placeholder="Enter price"
                   />
                 </td>
                 <td>
-                  <button onClick={() => handleSetPrice(p.productId)}>Set Price</button>
+                  <button onClick={() => handleSetPrice(p.productId)}>
+                    Set Price
+                  </button>
                 </td>
               </tr>
             ))}
