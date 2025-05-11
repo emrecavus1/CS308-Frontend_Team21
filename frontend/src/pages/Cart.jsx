@@ -11,15 +11,17 @@ export default function Cart() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/main/items", {
-      credentials: "include",    // ← sends your CART_ID cookie automatically
+    const tabId = sessionStorage.getItem("tabId");
+  
+    fetch(`http://localhost:8080/api/main/items?tabId=${tabId}`, {
+      credentials: "include",  // sends cookies including TAB_CART_ID
     })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
       .then(async (rawItems) => {
-        // enrich each item with productName + price
+        // Enrich each item with productName and price
         const withDetails = await Promise.all(
           rawItems.map(async (item) => {
             const resp = await fetch(
@@ -40,6 +42,7 @@ export default function Cart() {
       .catch(() => setError("Could not load your cart."))
       .finally(() => setLoading(false));
   }, []);
+  
 
   const isEmpty = !loading && items.length === 0;
   const total   = items.reduce(

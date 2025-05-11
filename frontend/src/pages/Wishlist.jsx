@@ -11,7 +11,9 @@ export default function Wishlist() {
   const [message, setMessage] = useState("");
 
 
-  const userId = localStorage.getItem("userId");
+  const tabId = sessionStorage.getItem("tabId");
+  const userId = sessionStorage.getItem(`${tabId}-userId`);
+  
 
   useEffect(() => {
     if (!userId) {
@@ -46,23 +48,39 @@ export default function Wishlist() {
     }
   };
 
+  const getTabCartIdFromCookie = () => {
+    const match = document.cookie.match(/TAB_CART_ID=([^;]+)/);
+    return match ? match[1] : null;
+  };
+
   const handleAddToCart = async (productId) => {
+    const tabId = sessionStorage.getItem("tabId");
+  
     try {
-      const res = await fetch(`/api/main/cart/add?productId=${productId}`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `/api/main/cart/add?productId=${productId}&tabId=${tabId}`,
+        {
+          method: "POST",
+          credentials: "include"
+        }
+      );
       const json = await res.json();
       if (res.ok) {
+        const cartId = getTabCartIdFromCookie(); // now should exist
+        console.log("Cart ID for this tab:", cartId);
         setMessage(json.message || "✅ Added to cart!");
       } else {
         setMessage(json.message || "❌ Failed to add to cart.");
       }
     } catch (err) {
       setMessage("❌ Failed to add to cart.");
-      console.error("Add to cart error:", err);
+      console.error("Add to cart failed:", err);
+    } finally {
+      setTimeout(() => setMessage(""), 3000);
     }
   };
+  
+  
   
   
 

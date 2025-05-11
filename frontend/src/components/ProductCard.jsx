@@ -10,40 +10,48 @@ export default function ProductCard({ product }) {
   const [adding, setAdding] = useState(false);
   const [inWishlist, setInWishlist] = useState(false); // Local wishlist state
 
+  const tabId = sessionStorage.getItem("tabId");
   const inStock = product.stockCount > 0;
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem(`${tabId}-userId`);
 
   const handleCardClick = () => {
     navigate(`/product/${product.productId}`, { state: product });
   };
 
-  const handleAddToCart = async (e) => {
-    e.stopPropagation();
-    if (!inStock || adding) return;
+  const getTabCartIdFromCookie = () => {
+    const match = document.cookie.match(/TAB_CART_ID=([^;]+)/);
+    return match ? match[1] : null;
+  };
 
-    setAdding(true);
+  const handleAddToCart = async (productId) => {
+    const tabId = sessionStorage.getItem("tabId");
+  
     try {
       const res = await fetch(
-        `/api/main/cart/add?productId=${product.productId}`,
+        `/api/main/cart/add?productId=${productId}&tabId=${tabId}`,
         {
           method: "POST",
-          credentials: "include",
+          credentials: "include"
         }
       );
       const json = await res.json();
       if (res.ok) {
-        setMessage(json.message || "Added to cart!");
+        const cartId = getTabCartIdFromCookie(); // now should exist
+        console.log("Cart ID for this tab:", cartId);
+        setMessage(json.message || "✅ Added to cart!");
       } else {
-        setMessage(json.message || "Failed to add to cart.");
+        setMessage(json.message || "❌ Failed to add to cart.");
       }
     } catch (err) {
+      setMessage("❌ Failed to add to cart.");
       console.error("Add to cart failed:", err);
-      setMessage("Failed to add to cart.");
+      console.log("Status:", res.status);
+      console.log("Response:", text);
     } finally {
-      setAdding(false);
       setTimeout(() => setMessage(""), 3000);
     }
   };
+  
 
   const handleToggleWishlist = async (e) => {
     e.stopPropagation();
@@ -96,7 +104,10 @@ export default function ProductCard({ product }) {
         </p>
 
         <button
-          onClick={handleAddToCart}
+          onClick={(e) => {
+            e.stopPropagation(); // ✅ Prevent card click
+            handleAddToCart(product.productId);
+          }}
           className={inStock ? "add-btn" : "add-btn disabled"}
           disabled={!inStock || adding}
         >

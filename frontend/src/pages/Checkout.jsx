@@ -14,7 +14,8 @@ export default function Checkout() {
   const [invoiceUrl, setInvoiceUrl] = useState("");
 
   // grab your auth token however you stored it
-  const token = localStorage.getItem("authToken");
+  const tabId = sessionStorage.getItem("tabId");
+  const token = sessionStorage.getItem(`${tabId}-authToken`);
 
   // 1) if there's no token on mount, show a login prompt
   useEffect(() => {
@@ -42,54 +43,47 @@ export default function Checkout() {
     setError("");
     setSuccess("");
     setInvoiceUrl("");
-
+  
     try {
-      // hit the payment + order endpoint (we know we have a token here)
       const res = await fetch(
         `http://localhost:8080/api/order/order` +
-          `?cardNumber=${encodeURIComponent(cardNumber)}` +
+          `?tabId=${encodeURIComponent(tabId)}` +
+          `&cardNumber=${encodeURIComponent(cardNumber)}` +
           `&expiryDate=${encodeURIComponent(expiryDate)}` +
           `&cvv=${encodeURIComponent(cvv)}`,
         {
-          method:      "PUT",
-          credentials: "include",               
+          method: "PUT",
+          credentials: "include",
           headers: {
-            "Authorization": `Bearer ${token}`, 
+            "Authorization": `Bearer ${token}`,
           },
         }
       );
-
+  
       if (!res.ok) {
         const text = await res.text();
         throw new Error(text || `Payment failed (${res.status})`);
       }
-
-      // got back the new orderId as plain text
+  
       const orderId = (await res.text()).trim();
       setSuccess("Payment successful! Here’s your invoice ↓");
-
-      // fetch the PDF invoice
+  
       const pdfRes = await fetch(
         `http://localhost:8080/api/invoices/${encodeURIComponent(orderId)}`,
         {
-          method:      "GET",
+          method: "GET",
           credentials: "include",
-          // this endpoint is open, so no Authorization header needed
         }
       );
-
+  
       if (!pdfRes.ok) {
         throw new Error("Could not fetch invoice PDF");
       }
-
+  
       const blob = await pdfRes.blob();
       setInvoiceUrl(URL.createObjectURL(blob));
-
-      // clear the cart cookie
-      document.cookie = "CART_ID=;path=/;max-age=0";
-
+  
     } catch (err) {
-      // if network-level failure or any fetch rejected, remind them to login
       if (err.message === "Failed to fetch") {
         setError("You must be logged in to checkout.");
       } else {
@@ -97,6 +91,7 @@ export default function Checkout() {
       }
     }
   };
+  
 
   return (
     <>

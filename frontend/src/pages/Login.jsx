@@ -21,6 +21,8 @@ const Login = () => {
         { email, password }
       );
 
+      const tabId = sessionStorage.getItem("tabId");
+
       const {
         token,
         userId,
@@ -31,13 +33,13 @@ const Login = () => {
         email: userEmail
       } = response.data;
 
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("userName", name);
-      localStorage.setItem("userSurname", surname);
-      localStorage.setItem("role", role);
-      localStorage.setItem("specificAddress", specificAddress);
-      localStorage.setItem("email", userEmail);
+      sessionStorage.setItem(`${tabId}-authToken`, token);
+      sessionStorage.setItem(`${tabId}-userId`, userId);
+      sessionStorage.setItem(`${tabId}-userName`, name);
+      sessionStorage.setItem(`${tabId}-userSurname`, surname);
+      sessionStorage.setItem(`${tabId}-role`, role);
+      sessionStorage.setItem(`${tabId}-specificAddress`, specificAddress);
+      sessionStorage.setItem(`${tabId}-email`, userEmail);
 
       // Navigate by role
       switch (role) {
