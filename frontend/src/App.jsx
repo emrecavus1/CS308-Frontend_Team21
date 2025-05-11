@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import Landing from "./pages/Landing";
@@ -24,12 +24,29 @@ import Orders from "./pages/Orders";
 import SetPrice from "./pages/SetPrice";
 import SetDiscount from "./pages/SetDiscount";
 import RequestRefund from "./pages/RequestRefund";
-import Refunds from "./pages/Refunds"
-// at the very top of App.jsx
-
-
+import Refunds from "./pages/Refunds";
 
 function App() {
+  useEffect(() => {
+    // ✅ Generate tabId once per tab
+    if (!sessionStorage.getItem('tabId')) {
+      sessionStorage.setItem('tabId', Math.random().toString(36).substring(2, 15));
+    }
+
+    // ✅ Inject tabId into all fetch calls
+    const originalFetch = window.fetch;
+    window.fetch = function (url, options = {}) {
+      const tabId = sessionStorage.getItem('tabId');
+      const separator = url.includes('?') ? '&' : '?';
+      const modifiedUrl = `${url}${separator}tabId=${tabId}`;
+      return originalFetch(modifiedUrl, options);
+    };
+
+    return () => {
+      window.fetch = originalFetch;
+    };
+  }, []);
+
   return (
     <CartProvider>
       <Router>
@@ -44,20 +61,20 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-history" element={<OrderHistory />} />
           <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/product-manager" element={ <ProductManager />} />
-          <Route path="/sales-manager" element={ <SalesManager />} />
-          <Route path="/product-manager/add-remove-category" element={ <AddRemoveCategory />} />
-          <Route path="/product-manager/update-stock" element={ <UpdateStock />} />
+          <Route path="/product-manager" element={<ProductManager />} />
+          <Route path="/sales-manager" element={<SalesManager />} />
+          <Route path="/product-manager/add-remove-category" element={<AddRemoveCategory />} />
+          <Route path="/product-manager/update-stock" element={<UpdateStock />} />
           <Route path="/product-manager/add-remove-product" element={<AddRemoveProduct />} />
-          <Route path="/product-manager/add-product" element={<AddProduct />} /> {/* placeholder later */}
-          <Route path="/product-manager/remove-product" element={<RemoveProduct />} /> {/* placeholder later */} 
-          <Route path="/sales-manager/update-price" element={<UpdatePrice />} />  
-          <Route path="/profile" element={<Profile />} />  
-          <Route path="/product-manager/comments" element={ <Comments />} /> 
-          <Route path="/product-manager/orders" element = { <Orders />} />
-          <Route path="/sales-manager/set-price" element = { <SetPrice />} />
-          <Route path="/sales-manager/set-discount" element = { <SetDiscount />} />
-          <Route path="/sales-manager/refund-requests" element = { <Refunds />} />
+          <Route path="/product-manager/add-product" element={<AddProduct />} />
+          <Route path="/product-manager/remove-product" element={<RemoveProduct />} />
+          <Route path="/sales-manager/update-price" element={<UpdatePrice />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/product-manager/comments" element={<Comments />} />
+          <Route path="/product-manager/orders" element={<Orders />} />
+          <Route path="/sales-manager/set-price" element={<SetPrice />} />
+          <Route path="/sales-manager/set-discount" element={<SetDiscount />} />
+          <Route path="/sales-manager/refund-requests" element={<Refunds />} />
         </Routes>
       </Router>
     </CartProvider>

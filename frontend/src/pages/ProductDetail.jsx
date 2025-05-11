@@ -24,10 +24,11 @@ export default function ProductDetail() {
 
   const [userNames, setUserNames] = useState({});
 
-  const token = localStorage.getItem("authToken");
-  const userId = localStorage.getItem("userId");
-  const name = localStorage.getItem("userName");
-  const surname = localStorage.getItem("userSurname");
+  const tabId = sessionStorage.getItem("tabId");
+  const token = sessionStorage.getItem(`${tabId}-authToken`);
+  const userId = sessionStorage.getItem(`${tabId}-userId`);
+  const name = sessionStorage.getItem(`${tabId}-userName`);
+  const surname = sessionStorage.getItem(`${tabId}-userSurname`);
 
   const [showStars, setShowStars] = useState(false);
 
@@ -81,21 +82,36 @@ export default function ProductDetail() {
   if (error) return <p className="center error">{error}</p>;
 
   const inStock = product.stockCount > 0;
+  
+  const getTabCartIdFromCookie = () => {
+    const match = document.cookie.match(/TAB_CART_ID=([^;]+)/);
+    return match ? match[1] : null;
+  };
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (productId) => {
+    const tabId = sessionStorage.getItem("tabId");
+  
     try {
       const res = await fetch(
-        `/api/main/cart/add?productId=${product.productId}`,
-        { method: "POST", credentials: "include" }
+        `/api/main/cart/add?productId=${productId}&tabId=${tabId}`,
+        {
+          method: "POST",
+          credentials: "include"
+        }
       );
       const json = await res.json();
       if (res.ok) {
-        setMessage(json.message || "Added to cart!");
+        const cartId = getTabCartIdFromCookie(); // now should exist
+        console.log("Cart ID for this tab:", cartId);
+        setMessage(json.message || "✅ Added to cart!");
       } else {
-        setMessage(json.message || "Failed to add product to cart.");
+        setMessage(json.message || "❌ Failed to add to cart.");
       }
     } catch (err) {
-      setMessage("Failed to add product to cart.");
+      setMessage("❌ Failed to add to cart.");
+      console.error("Add to cart failed:", err);
+    } finally {
+      setTimeout(() => setMessage(""), 3000);
     }
   };
 

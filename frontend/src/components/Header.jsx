@@ -10,8 +10,12 @@ export default function Header() {
 
   const [query, setQuery]     = useState("");
   const [results, setResults] = useState([]);
-  const token                 = localStorage.getItem("authToken");
-  const role                  = localStorage.getItem("role");
+
+  // ✅ Use sessionStorage instead of localStorage
+  const tabId = sessionStorage.getItem("tabId");
+  const token = sessionStorage.getItem(`${tabId}-authToken`);
+  const role  = sessionStorage.getItem(`${tabId}-role`);
+  
 
   useEffect(() => {
     const onClickOutside = (e) => {
@@ -81,15 +85,8 @@ export default function Header() {
 
       <div className="icons">
         <FaHome className="icon clickable-icon" onClick={handleHomeClick} />
-
-        <FaHeart
-          className="icon clickable-icon"
-          onClick={() => navigate("/wishlist")}
-        />
-        <FaShoppingCart
-          className="icon clickable-icon"
-          onClick={() => navigate("/cart")}
-        />
+        <FaHeart className="icon clickable-icon" onClick={() => navigate("/wishlist")} />
+        <FaShoppingCart className="icon clickable-icon" onClick={() => navigate("/cart")} />
         <FaUser
           className="icon clickable-icon"
           onClick={() => {

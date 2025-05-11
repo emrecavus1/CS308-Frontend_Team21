@@ -6,8 +6,9 @@ import "./RequestRefund.css"; // reuse existing styles
 
 export default function RequestRefund() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
-  const userId = localStorage.getItem("userId");
+  const tabId = sessionStorage.getItem("tabId");
+  const token = sessionStorage.getItem(`${tabId}-authToken`);
+  const userId = sessionStorage.getItem(`${tabId}-userId`);
 
   const [orders, setOrders] = useState([]);
   const [productInfo, setProductInfo] = useState({});

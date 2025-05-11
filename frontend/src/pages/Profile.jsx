@@ -11,14 +11,18 @@ export default function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) return setError("User ID not found. Please log in again.");
-
-    axios
-      .get(`http://localhost:8080/api/auth/user/${userId}`)
+    const tabId = sessionStorage.getItem("tabId");
+    const userId = sessionStorage.getItem(`${tabId}-userId`);
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+  
+    axios.get(`http://localhost:8080/api/auth/user/${userId}`)
       .then((res) => setUser(res.data))
       .catch(() => setError("Failed to load user profile."));
   }, []);
+  
 
   if (error) {
     return (
@@ -43,15 +47,29 @@ export default function Profile() {
   }
 
   const handleLogout = async () => {
+    const tabId = sessionStorage.getItem("tabId");
     try {
       await fetch("http://localhost:8080/api/auth/logout", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem(`${tabId}-authToken`)}`,
+        },
       });
     } catch {}
-    localStorage.clear();
-    navigate("/login");
+  
+    // Only clear tab-specific session values
+    sessionStorage.removeItem(`${tabId}-authToken`);
+    sessionStorage.removeItem(`${tabId}-userId`);
+    sessionStorage.removeItem(`${tabId}-userName`);
+    sessionStorage.removeItem(`${tabId}-userSurname`);
+    sessionStorage.removeItem(`${tabId}-role`);
+    sessionStorage.removeItem(`${tabId}-specificAddress`);
+    sessionStorage.removeItem(`${tabId}-email`);
+  
+    window.location.href = "/login";
   };
+  
+  
 
   return (
     <>
