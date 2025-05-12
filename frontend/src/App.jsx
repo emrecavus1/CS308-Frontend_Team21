@@ -26,7 +26,9 @@ import SetDiscount from "./pages/SetDiscount";
 import RequestRefund from "./pages/RequestRefund";
 import Refunds from "./pages/Refunds";
 import Invoices from "./pages/Invoices";
-import Results from "./pages/Results"
+import Results from "./pages/Results";
+import FinancialReport from "./pages/FinancialReport";
+import LossProfit from './pages/LossProfit';
 
 function App() {
   useEffect(() => {
@@ -79,6 +81,8 @@ function App() {
           <Route path="/sales-manager/refund-requests" element={<Refunds />} />
           <Route path="/sales-manager/view-invoices" element={<Invoices />} />
           <Route path="/sales-manager/invoices" element={<Results />} />
+          <Route path="/sales-manager/financial-report" element={<FinancialReport />} />
+          <Route path="/sales-manager/loss-profit" element={<LossProfit />} />
         </Routes>
       </Router>
     </CartProvider>
