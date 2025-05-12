@@ -1,0 +1,71 @@
+.invoice-page {
+    padding-top: var(--header-height); /* Instead of hardcoded 140px */
+    font-family: 'Work Sans', sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  /* 🆙 Bigger and bolder heading */
+  .invoice-page h2 {
+    text-align: center;
+    font-size: 2rem;             /* Increased font size */
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #1a202c;
+    background-color: white;
+  }
+  
+  /* 📅 Spacious input container */
+  .date-range-form {
+    background: white;
+    padding: 1.5rem 2rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+  
+  /* 🔤 Input labels */
+  .date-range-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    flex: 1;
+  }
+  
+  /* 🖊️ Larger input fields */
+  .date-range-form input {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  /* 🔘 Bigger search button */
+  .date-range-form button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    height: 48px;
+  }
+  
+  .date-range-form button:hover {
+    background-color: #3182ce;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  

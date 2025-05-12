@@ -25,6 +25,8 @@ import SetPrice from "./pages/SetPrice";
 import SetDiscount from "./pages/SetDiscount";
 import RequestRefund from "./pages/RequestRefund";
 import Refunds from "./pages/Refunds";
+import Invoices from "./pages/Invoices";
+import Results from "./pages/Results"
 
 function App() {
   useEffect(() => {
@@ -75,6 +77,8 @@ function App() {
           <Route path="/sales-manager/set-price" element={<SetPrice />} />
           <Route path="/sales-manager/set-discount" element={<SetDiscount />} />
           <Route path="/sales-manager/refund-requests" element={<Refunds />} />
+          <Route path="/sales-manager/view-invoices" element={<Invoices />} />
+          <Route path="/sales-manager/invoices" element={<Results />} />
         </Routes>
       </Router>
     </CartProvider>

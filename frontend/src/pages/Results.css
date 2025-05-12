@@ -1,0 +1,110 @@
+/* src/pages/Results.css */
+
+.invoice-page {
+    padding-top: var(--header-height);
+    font-family: 'Work Sans', sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .invoice-page h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #0e141b;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1.05rem;
+  }
+  
+  .invoice-dropdown {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    padding: 24px 30px;
+    margin-bottom: 40px;
+  }
+  
+  .invoice-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .invoice-dropdown li {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .invoice-dropdown li:hover {
+    transform: scale(1.02);
+    background-color: #f0f4ff;
+  }
+  
+  .invoice-dropdown li:last-child {
+    border-bottom: none;
+  }
+  
+  .pdf-link {
+    color: #197fe6;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 20px;
+    font-weight: 500;
+  }
+  
+  .pagination-controls button {
+    background-color: #197fe6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .pagination-controls button:hover:not(:disabled) {
+    background-color: #145ca8;
+  }
+  
+  .pagination-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+.pagination-controls span {
+  background-color: white;
+}
+
+.download-button {
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.download-button:hover {
+  background-color: #3179c2;
+}
+
+  
+  
