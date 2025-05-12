@@ -84,6 +84,7 @@
   color: #197fe6;
 }
 
-.site-header + * {
-  margin-top: calc(80px + 16px);
+
+:root {
+  --header-height: 80px;
 }

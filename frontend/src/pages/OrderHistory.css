@@ -36,12 +36,16 @@
  
  
  .section-wrapper {
-  background-color: #f9f9fb; /* soft light background */
-  border: 1px solid #e0e0e0;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 2rem;
- }
+  background: white;
+  border-radius: 12px;
+  border-color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 480px;        /* reduced from previous wider size */
+  width: 90%;              /* responsive on smaller screens */
+}
+
  
  
  .section-wrapper h3 {
@@ -253,6 +257,41 @@
   font-size: 0.8rem;
   padding: 6px 12px;
 }
+
+
+.products-grid.mini-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.pagination-controls {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.pagination-controls button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background-color: #ccc;
+  color: #000;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-controls button:not(:disabled):hover {
+  background-color: #aaa;
+}
+
 
 
  
