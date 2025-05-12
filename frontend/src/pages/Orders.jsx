@@ -82,6 +82,12 @@ export default function OrdersPage() {
           ))}
         </select>
 
+        {selectedUserId && orders.length === 0 && (
+          <p style={{ textAlign: "center", marginTop: "1rem", color: "gray" }}>
+            No active orders for this user.
+          </p>
+        )}
+
         {orders.length > 0 && (
           <>
             <select
