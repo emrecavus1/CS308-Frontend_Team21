@@ -37,10 +37,10 @@ const iconMap = {
 
 export default function Landing() {
   const navigate = useNavigate();
-  const [categories, setCategories]       = useState([]);
+  const [categories, setCategories] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [sortedResults, setSortedResults] = useState([]);
-  const [sortField, setSortField]         = useState("");
+  const [sortField, setSortField] = useState("");
 
   // load categories
   useEffect(() => {
@@ -65,22 +65,11 @@ export default function Landing() {
   };
 
   // sort handlers
-  const handleSortPrice = () => {
-    axios.get("http://localhost:8080/api/main/sortProductsByPrice")
+  const handleSortPriceAsc = () => {
+    axios.get("http://localhost:8080/api/main/sortProductsByPriceAsc")
       .then(res => {
         setSortedResults(res.data || []);
-        setSortField("price");
-      })
-      .catch(() => {
-        setSortedResults([]);
-        setSortField("");
-      });
-  };
-  const handleSortRating = () => {
-    axios.get("http://localhost:8080/api/main/sortProductsByRating")
-      .then(res => {
-        setSortedResults(res.data || []);
-        setSortField("rating");
+        setSortField("price (asc)");
       })
       .catch(() => {
         setSortedResults([]);
@@ -88,7 +77,42 @@ export default function Landing() {
       });
   };
 
-  // helper to capitalize
+  const handleSortPriceDesc = () => {
+    axios.get("http://localhost:8080/api/main/sortProductsByPriceDesc")
+      .then(res => {
+        setSortedResults(res.data || []);
+        setSortField("price (desc)");
+      })
+      .catch(() => {
+        setSortedResults([]);
+        setSortField("");
+      });
+  };
+
+  const handleSortRatingAsc = () => {
+    axios.get("http://localhost:8080/api/main/sortProductsByRatingAsc")
+      .then(res => {
+        setSortedResults(res.data || []);
+        setSortField("rating (asc)");
+      })
+      .catch(() => {
+        setSortedResults([]);
+        setSortField("");
+      });
+  };
+
+  const handleSortRatingDesc = () => {
+    axios.get("http://localhost:8080/api/main/sortProductsByRatingDesc")
+      .then(res => {
+        setSortedResults(res.data || []);
+        setSortField("rating (desc)");
+      })
+      .catch(() => {
+        setSortedResults([]);
+        setSortField("");
+      });
+  };
+
   const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
   return (
@@ -135,8 +159,10 @@ export default function Landing() {
       {/* 4+5) Sort section (buttons + floating results) */}
       <div className="sort-section">
         <div className="sort-buttons">
-          <button onClick={handleSortPrice}>Sort by Price</button>
-          <button onClick={handleSortRating}>Sort by Rating</button>
+          <button onClick={handleSortPriceAsc}>Price ↑</button>
+          <button onClick={handleSortPriceDesc}>Price ↓</button>
+          <button onClick={handleSortRatingAsc}>Rating ↑</button>
+          <button onClick={handleSortRatingDesc}>Rating ↓</button>
         </div>
 
         {sortedResults.length > 0 && (
@@ -149,7 +175,7 @@ export default function Landing() {
                   className="sorted-item"
                   onClick={() => navigate(`/product/${p.productId}`, { state: p })}
                 >
-                  <strong>{p.productName}</strong> — {sortField === "price" ? (`$${p.price}`) : (<>{p.rating?.toFixed(2)}<span className="star-icon">★</span></>)}
+                  <strong>{p.productName}</strong> — {sortField.includes("price") ? (`$${p.price}`) : (<>{p.rating?.toFixed(2)}<span className="star-icon">★</span></>)}
                 </li>
               ))}
             </ul>
@@ -159,4 +185,3 @@ export default function Landing() {
     </div>
   );
 }
-
