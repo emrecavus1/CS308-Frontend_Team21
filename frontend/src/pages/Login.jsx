@@ -14,15 +14,21 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-
+  
+    let tabId = sessionStorage.getItem("tabId");
+  
+    // ✅ Create a new tabId if not exists
+    if (!tabId || tabId.includes(",")) {
+      tabId = crypto.randomUUID();
+      sessionStorage.setItem("tabId", tabId);
+    }
+  
     try {
       const response = await axios.post(
         "http://localhost:8080/api/auth/login",
         { email, password }
       );
-
-      const tabId = sessionStorage.getItem("tabId");
-
+  
       const {
         token,
         userId,
@@ -32,7 +38,7 @@ const Login = () => {
         specificAddress,
         email: userEmail
       } = response.data;
-
+  
       sessionStorage.setItem(`${tabId}-authToken`, token);
       sessionStorage.setItem(`${tabId}-userId`, userId);
       sessionStorage.setItem(`${tabId}-userName`, name);
@@ -40,8 +46,8 @@ const Login = () => {
       sessionStorage.setItem(`${tabId}-role`, role);
       sessionStorage.setItem(`${tabId}-specificAddress`, specificAddress);
       sessionStorage.setItem(`${tabId}-email`, userEmail);
-
-      // Navigate by role
+  
+      // ✅ Role-based routing
       switch (role) {
         case "Customer":
           navigate("/");
@@ -55,11 +61,12 @@ const Login = () => {
         default:
           navigate("/"); // fallback
       }
-
+  
     } catch (err) {
       setError("Invalid email or password");
     }
   };
+  
 
   return (
     <>

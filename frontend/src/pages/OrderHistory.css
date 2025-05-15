@@ -292,6 +292,15 @@
   background-color: #aaa;
 }
 
+.cancel-order-button.disabled-button {
+  background-color: #a0a0a0;
+  color: #e0e0e0;
+  cursor: not-allowed;
+  pointer-events: none; /* Just in case */
+  box-shadow: none;
+}
+
+
 
 
  

@@ -10,6 +10,7 @@ export default function OrderHistory() {
   const [tabId, setTabId] = useState(null);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
 
   const [activePage, setActivePage] = useState(0);
   const [previousPage, setPreviousPage] = useState(0);
@@ -23,28 +24,32 @@ export default function OrderHistory() {
   const [error, setError] = useState("");
   const [productNames, setProductNames] = useState({});
 
-  // Step 1: Get tabId, token, userId safely (once)
+  // Step 1: Resolve tabId, token, and userId securely
   useEffect(() => {
-    let t = sessionStorage.getItem("tabId");
-    if (t?.includes(",")) {
-      t = t.split(",")[0];
-      sessionStorage.setItem("tabId", t);
+    const t = sessionStorage.getItem("tabId");
+
+    // Abort if tabId is malformed or missing
+    if (!t || t.includes(",")) {
+      console.warn("Invalid tabId format or session corruption.");
+      navigate("/login");
+      return;
     }
 
     const tok = sessionStorage.getItem(`${t}-authToken`);
     const uid = sessionStorage.getItem(`${t}-userId`);
 
     if (!tok || !uid) {
+      console.warn("Missing token or userId for tab:", t);
       navigate("/login");
-    } else {
-      setTabId(t);
-      setToken(tok);
-      setUserId(uid);
-      setReady(true);
+      return;
     }
+
+    setTabId(t);
+    setToken(tok);
+    setUserId(uid);
   }, [navigate]);
 
-  // Step 2: Load data (only when token + userId are available)
+  // Step 2: Load user, orders, and recommendations
   useEffect(() => {
     if (!token || !userId) return;
 
@@ -52,32 +57,46 @@ export default function OrderHistory() {
 
     const load = (url, setter, msg) =>
       fetch(url, { headers })
-        .then(r => r.ok ? r.json() : Promise.reject())
+        .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then(setter)
-        .catch(() => setError(e => e ? e + " " + msg : msg));
+        .catch(() => setError((e) => (e ? e + " " + msg : msg)));
 
     load(`http://localhost:8080/api/order/viewActiveOrders/${userId}`, setActiveOrders, "Could not load active orders.");
     load(`http://localhost:8080/api/order/viewPreviousOrders/${userId}`, setPreviousOrders, "Could not load previous orders.");
 
     fetch(`http://localhost:8080/api/order/previous-products/${userId}`, { headers })
-      .then(r => r.ok ? r.json() : Promise.reject())
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then(setRecommended)
-      .catch(() => setError(e => e ? e + " Could not load recommended products." : "Could not load recommended products."));
+      .catch(() => setError((e) => (e ? e + " Could not load recommended products." : "Could not load recommended products.")));
+
+      fetch(`http://localhost:8080/api/auth/user/${userId}`, { headers })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((userData) => {
+        setUser(userData);
+        setReady(true); // ✅ Set ready only after user is confirmed
+      })
+      .catch(() => {
+        setError((e) => (e ? e + " Could not load user info." : "Could not load user info."));
+        navigate("/login"); // fallback in case user fetch fails
+      });
+    
   }, [token, userId]);
 
   // Step 3: Load product names for display
   useEffect(() => {
     const allIds = new Set();
-    [...activeOrders, ...previousOrders].forEach(o => o.productIds.forEach(pid => allIds.add(pid)));
+    [...activeOrders, ...previousOrders].forEach((o) =>
+      o.productIds.forEach((pid) => allIds.add(pid))
+    );
 
-    allIds.forEach(pid => {
+    allIds.forEach((pid) => {
       if (!productNames[pid]) {
         fetch(`http://localhost:8080/api/main/products/${pid}`)
-          .then(r => r.ok ? r.json() : Promise.reject())
-          .then(prod => {
-            setProductNames(m => ({ ...m, [pid]: prod.productName }));
+          .then((r) => (r.ok ? r.json() : Promise.reject()))
+          .then((prod) => {
+            setProductNames((m) => ({ ...m, [pid]: prod.productName }));
           })
-          .catch(() => { /* silent */ });
+          .catch(() => { /* silent fail */ });
       }
     });
   }, [activeOrders, previousOrders, productNames]);
@@ -90,7 +109,7 @@ export default function OrderHistory() {
       });
     } catch {}
 
-    // Remove session values only for this tab
+    // Clear only current tab’s session data
     sessionStorage.removeItem(`${tabId}-authToken`);
     sessionStorage.removeItem(`${tabId}-userId`);
     sessionStorage.removeItem(`${tabId}-userName`);
@@ -102,9 +121,7 @@ export default function OrderHistory() {
     window.location.href = "/login";
   };
 
-  // Delay render until tabId/token/userId resolved
   if (!ready) return <div style={{ paddingTop: "100px", textAlign: "center" }}>Loading...</div>;
-
 
   return (
     <>
@@ -119,10 +136,13 @@ export default function OrderHistory() {
                 <p className="no-orders-message">No active orders.</p>
               ) : (
                 <>
-                  {activeOrders.slice(activePage, activePage + 1).map(order => (
+                  {activeOrders.slice(activePage, activePage + 1).map((order) => (
                     <div key={order.orderId} className="order-card">
                       <p><strong>Order #{order.orderId}</strong></p>
                       <p>Status: {order.status}</p>
+                      {order.invoiceSentDate && (
+                        <p>Date: {new Date(order.invoiceSentDate).toLocaleString()}</p>
+                      )}
                       <ul>
                         {order.productIds.map((pid, i) => (
                           <li key={pid}>
@@ -130,10 +150,18 @@ export default function OrderHistory() {
                           </li>
                         ))}
                       </ul>
+                      {user && (
+                        <p className="user-address">
+                          <strong>Shipping Address:</strong> {user.specificAddress}
+                        </p>
+                      )}
                       <button
-                        className="cancel-order-button"
+                        className={`cancel-order-button ${order.status !== "Processing" ? "disabled-button" : ""}`}
+                        disabled={order.status !== "Processing"}
                         onClick={async (e) => {
                           e.stopPropagation();
+                          if (order.status !== "Processing") return;
+
                           try {
                             const res = await fetch(
                               `http://localhost:8080/api/order/cancel/${order.orderId}?userId=${userId}`,
@@ -143,7 +171,9 @@ export default function OrderHistory() {
                               }
                             );
                             if (res.ok) {
-                              setActiveOrders(prev => prev.filter(o => o.orderId !== order.orderId));
+                              setActiveOrders((prev) =>
+                                prev.filter((o) => o.orderId !== order.orderId)
+                              );
                               setActivePage(0);
                             } else {
                               console.error("Failed to cancel order.");
@@ -158,11 +188,11 @@ export default function OrderHistory() {
                     </div>
                   ))}
                   <div className="pagination-controls">
-                    <button onClick={() => setActivePage(p => p - 1)} disabled={activePage === 0}>
+                    <button onClick={() => setActivePage((p) => p - 1)} disabled={activePage === 0}>
                       Previous
                     </button>
                     <button
-                      onClick={() => setActivePage(p => p + 1)}
+                      onClick={() => setActivePage((p) => p + 1)}
                       disabled={activePage >= activeOrders.length - 1}
                     >
                       Next
@@ -171,7 +201,7 @@ export default function OrderHistory() {
                 </>
               )}
             </div>
-  
+
             {/* Previous Orders */}
             <div className="section-wrapper">
               <h3>Previous Orders</h3>
@@ -179,10 +209,13 @@ export default function OrderHistory() {
                 <p className="no-orders-message">No past orders.</p>
               ) : (
                 <>
-                  {previousOrders.slice(previousPage, previousPage + 1).map(order => (
+                  {previousOrders.slice(previousPage, previousPage + 1).map((order) => (
                     <div key={order.orderId} className="order-card">
                       <p><strong>Order #{order.orderId}</strong></p>
                       <p>Status: {order.status}</p>
+                      {order.invoiceSentDate && (
+                        <p>Date: {new Date(order.invoiceSentDate).toLocaleString()}</p>
+                      )}
                       <ul>
                         {order.productIds.map((pid, i) => (
                           <li key={pid}>
@@ -190,14 +223,19 @@ export default function OrderHistory() {
                           </li>
                         ))}
                       </ul>
+                      {user && (
+                        <p className="user-address">
+                          <strong>Shipping Address:</strong> {user.specificAddress}
+                        </p>
+                      )}
                     </div>
                   ))}
                   <div className="pagination-controls">
-                    <button onClick={() => setPreviousPage(p => p - 1)} disabled={previousPage === 0}>
+                    <button onClick={() => setPreviousPage((p) => p - 1)} disabled={previousPage === 0}>
                       Previous
                     </button>
                     <button
-                      onClick={() => setPreviousPage(p => p + 1)}
+                      onClick={() => setPreviousPage((p) => p + 1)}
                       disabled={previousPage >= previousOrders.length - 1}
                     >
                       Next
@@ -207,8 +245,8 @@ export default function OrderHistory() {
               )}
             </div>
           </div>
-  
-          {/* Recommended */}
+
+          {/* Recommended Products */}
           <div className="section-wrapper">
             <h3>Previously Purchased Products</h3>
             {recommended.length === 0 ? (
@@ -218,19 +256,16 @@ export default function OrderHistory() {
                 <div className="products-grid mini-grid">
                   {recommended
                     .slice(productPage * 3, productPage * 3 + 3)
-                    .map(prod => (
+                    .map((prod) => (
                       <ProductCard key={prod.productId} product={prod} />
-                  ))}
+                    ))}
                 </div>
                 <div className="pagination-controls">
-                  <button
-                    onClick={() => setProductPage(p => p - 1)}
-                    disabled={productPage === 0}
-                  >
+                  <button onClick={() => setProductPage((p) => p - 1)} disabled={productPage === 0}>
                     Previous
                   </button>
                   <button
-                    onClick={() => setProductPage(p => p + 1)}
+                    onClick={() => setProductPage((p) => p + 1)}
                     disabled={(productPage + 1) * 3 >= recommended.length}
                   >
                     Next
@@ -240,7 +275,7 @@ export default function OrderHistory() {
             )}
           </div>
         </div>
-  
+
         {/* Footer Buttons */}
         <div className="logout-button-container">
           <button className="refund-button" onClick={() => navigate("/refunds")}>
@@ -253,5 +288,4 @@ export default function OrderHistory() {
       </div>
     </>
   );
-  
 }
