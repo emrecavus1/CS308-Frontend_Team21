@@ -11,17 +11,35 @@ export default function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const tabId = sessionStorage.getItem("tabId");
-    const userId = sessionStorage.getItem(`${tabId}-userId`);
-    if (!userId) {
+    let rawTabId = sessionStorage.getItem("tabId");
+  
+    if (!rawTabId) {
       navigate("/login");
       return;
     }
   
-    axios.get(`http://localhost:8080/api/auth/user/${userId}`)
+    // Sanitize tabId
+    if (rawTabId.includes(",")) {
+      rawTabId = rawTabId.split(",")[0];
+      sessionStorage.setItem("tabId", rawTabId); // optional overwrite
+    }
+  
+    const token = sessionStorage.getItem(`${rawTabId}-authToken`);
+    const userId = sessionStorage.getItem(`${rawTabId}-userId`);
+  
+    if (!token || !userId) {
+      navigate("/login");
+      return;
+    }
+  
+    axios.get(`http://localhost:8080/api/auth/user/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => setUser(res.data))
       .catch(() => setError("Failed to load user profile."));
   }, []);
+  
+  
   
 
   if (error) {
@@ -47,27 +65,38 @@ export default function Profile() {
   }
 
   const handleLogout = async () => {
-    const tabId = sessionStorage.getItem("tabId");
+    let rawTabId = sessionStorage.getItem("tabId");
+  
+    if (!rawTabId) {
+      window.location.href = "/login";
+      return;
+    }
+  
+    if (rawTabId.includes(",")) {
+      rawTabId = rawTabId.split(",")[0];
+    }
+  
     try {
       await fetch("http://localhost:8080/api/auth/logout", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem(`${tabId}-authToken`)}`,
+          Authorization: `Bearer ${sessionStorage.getItem(`${rawTabId}-authToken`)}`,
         },
       });
     } catch {}
   
-    // Only clear tab-specific session values
-    sessionStorage.removeItem(`${tabId}-authToken`);
-    sessionStorage.removeItem(`${tabId}-userId`);
-    sessionStorage.removeItem(`${tabId}-userName`);
-    sessionStorage.removeItem(`${tabId}-userSurname`);
-    sessionStorage.removeItem(`${tabId}-role`);
-    sessionStorage.removeItem(`${tabId}-specificAddress`);
-    sessionStorage.removeItem(`${tabId}-email`);
+    // Clean up
+    sessionStorage.removeItem(`${rawTabId}-authToken`);
+    sessionStorage.removeItem(`${rawTabId}-userId`);
+    sessionStorage.removeItem(`${rawTabId}-userName`);
+    sessionStorage.removeItem(`${rawTabId}-userSurname`);
+    sessionStorage.removeItem(`${rawTabId}-role`);
+    sessionStorage.removeItem(`${rawTabId}-specificAddress`);
+    sessionStorage.removeItem(`${rawTabId}-email`);
   
     window.location.href = "/login";
   };
+  
   
   
 
@@ -83,6 +112,7 @@ export default function Profile() {
           <p><strong>City:</strong> {user.city}</p>
           <p><strong>Address:</strong> {user.specificAddress}</p>
           <p><strong>Role:</strong> {user.role}</p>
+          <p><strong>Tax ID:</strong> {user.taxId} </p>
         </div>
         <div className="profile-actions">
             <button className="profile-button" onClick={() => navigate("/order-history")}>
