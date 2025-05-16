@@ -106,6 +106,7 @@ export default function Profile() {
       <div className="profile-container">
         <h1 className="profile-title">Your Profile</h1>
         <div className="profile-info">
+          <p><strong>User ID:</strong> {user.userId}</p> 
           <p><strong>Name:</strong> {user.name} {user.surname}</p>
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Phone Number:</strong> {user.phoneNumber}</p>

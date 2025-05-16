@@ -82,6 +82,8 @@ export default function OrdersPage() {
           ))}
         </select>
 
+
+
         {selectedUserId && orders.length === 0 && (
           <p style={{ textAlign: "center", marginTop: "1rem", color: "gray" }}>
             No active orders for this user.
@@ -104,6 +106,12 @@ export default function OrdersPage() {
               ))}
             </select>
 
+            {selectedUserId && (
+          <p style={{ textAlign: "center", margin: "0.5rem 0", fontStyle: "italic", color: "#333" }}>
+            User ID: <code>{selectedUserId}</code>
+          </p>
+        )}
+
             {selectedOrderId && orders.find(o => o.orderId === selectedOrderId)?.status.toLowerCase() !== "delivered" && (
               <div className="order-action-buttons">
                 <button onClick={() => handleMarkStatus("markInTransit")}>🚚 Mark as In Transit</button>
@@ -122,28 +130,33 @@ export default function OrdersPage() {
             </button>
 
             <table className="orders-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Quantity</th>
-                  <th>Total Price</th>
-                  <th>Delivery Address</th>
-                  <th>Delivered</th>
+            <thead>
+              <tr>
+                <th>Product ID</th> {/* new */}
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Delivery Address</th>
+                <th>Delivered</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {orderDetails.map((entry, index) => (
+                <tr key={index}>
+                  <td>{entry.productId || "N/A"}</td> {/* product ID field */}
+                  <td>{entry.productName}</td>
+                  <td>{entry.quantity}</td>
+                  <td>${entry.totalPrice?.toFixed(2)}</td>
+                  <td>{entry.deliveryAddress}</td>
+                  <td style={{ textAlign: "center" }}>
+                    {entry.delivered ? "✅" : "❌"}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {orderDetails.map((entry, index) => (
-                  <tr key={index}>
-                    <td>{entry.productName}</td>
-                    <td>{entry.quantity}</td>
-                    <td>${entry.totalPrice?.toFixed(2)}</td>
-                    <td>{entry.deliveryAddress}</td>
-                    <td style={{ textAlign: "center" }}>
-                      {entry.delivered ? "✅" : "❌"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              ))}
+            </tbody>
+
+
             </table>
           </>
         )}
