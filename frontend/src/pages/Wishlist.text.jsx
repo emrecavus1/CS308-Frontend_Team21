@@ -25,7 +25,7 @@ describe("Wishlist Page", () => {
     sessionStorage.setItem("tabId", "test-tab")
     sessionStorage.setItem("test-tab-userId", "user123")
     fetch.mockResolvedValueOnce({ ok: false })
-
+    //test
     renderWithRouter(<Wishlist />)
     expect(await screen.findByText(/failed to load wishlist/i)).toBeInTheDocument()
   })
